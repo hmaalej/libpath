@@ -352,7 +352,7 @@ node_t *opttree_extend_towards_sample (opttree_t *self, node_t *node_from, state
 
 
 // Extends a given node towards state_towards and returns the resulting state
-//    does not generate a new node or populate the tree
+//    does not generate a  node or populate the tree
 state_t *opttree_extend_towards_sample_no_create_node (opttree_t *self, node_t *node_from, state_t *state_towards) {
 
     state_t *state = NULL;
@@ -517,7 +517,7 @@ int opttree_extend_back_to_tree (opttree_t *self, node_t *node_from, GSList *nod
             node_curr_list = g_slist_next (node_curr_list);
             continue;
         }
-
+	//je pense que c'est la!
         if (node_curr == self->root) {
             node_curr_list = g_slist_next (node_curr_list);
             continue;
@@ -610,7 +610,7 @@ int opttree_iteration (opttree_t *self) {
     }
         
     // A) RRT* ALGORITHM
-    if (self->run_rrtstar) {   
+    //if (self->run_rrtstar) {   
         
         // A.1. Calculate the ball radius constant
         self->ball_radius_last = self->ball_radius_constant 
@@ -653,9 +653,9 @@ int opttree_iteration (opttree_t *self) {
         optsystem_free_state (self->optsys, extended_state);
         
         g_slist_free (close_nodes);
-    }
+    //}
     
-    // B) RRT ALGORITHM
+   /* // B) RRT ALGORITHM
     else {
         
         // B.1. Find the nearest node
@@ -667,7 +667,7 @@ int opttree_iteration (opttree_t *self) {
         node_t *extended_node = opttree_extend_towards_sample (self, nearest_node, &state_random);
         if (!extended_node)
             return 0;
-    }
+    }*/
 
     return 1;
 } 

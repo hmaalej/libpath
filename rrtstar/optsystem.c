@@ -252,7 +252,7 @@ int optsystem_extend_to (optsystem_t *self, state_t *state_from, state_t *state_
 
     double dist = sqrt (dist_x * dist_x + dist_y * dist_y);
 
-    if (dist < 1.0) {
+    if (dist < 1) {
         if (optsystem_segment_on_obstacle (self, state_from, state_towards, discretization_num_steps) ) {
             *fully_extends = 0;
             return 0;
