@@ -9,6 +9,7 @@
 
 #include "opttree.h"
 
+
 // Returns current time 
 int64_t
 ts_now () {
@@ -26,9 +27,8 @@ int main (int argc, char *argv[]) {
     FILE *f_obstacles = fopen("obstacles.txt","r");
     double x;
     double y;
-    double sx;
-    double sy;
- 
+  
+    
     // Setup the num_iterations
     int num_iterations = 100000;
     // 1. Create opttree structure
@@ -41,8 +41,8 @@ int main (int argc, char *argv[]) {
     // 2. Setup the environment
     // 2.a. create the operating region
     region_2d_t operating_region = {
-        .center = {0.0, 0.0},
-        .size = {36.0, 18.0}
+        .center = {0, 50},
+        .size = {12.0, 20.0}
     };
     optsystem_update_operating_region (opttree->optsys, &operating_region);
     
@@ -50,18 +50,16 @@ int main (int argc, char *argv[]) {
     // 2.b create obstacles
 
     GSList *obstacle_list = NULL;
-    region_2d_t *obstacle;
-    while( fscanf(f_obstacles,"%lf %lf %lf %lf",&x,&y,&sx,&sy)!=EOF){
-    obstacle = malloc (sizeof (region_2d_t));
-    obstacle->center[0] = x;
-    obstacle->center[1] = y;
-    obstacle->size[0] = sx;
-    obstacle->size[1] = sy;
-    obstacle_list = g_slist_prepend (obstacle_list, obstacle);
-    fscanf(f_obstacles,"\n");
-
+    GSList *obstacle = NULL;
+    state_t *node;
+    while( fscanf(f_obstacles,"%lf,%lf ",&x,&y)!=EOF){
+    node = malloc (sizeof (state_t));
+    node->x[0] = x;
+    node->x[1] = y;
+    
+    obstacle=g_slist_prepend(obstacle,node);
     } 
-
+	obstacle_list = g_slist_prepend (obstacle_list, obstacle);
     fclose(f_obstacles);
    
     
@@ -76,7 +74,7 @@ int main (int argc, char *argv[]) {
     // 2.d. create the goal region
     region_2d_t goal_region = {
         .center = {atof(argv[3]), atof(argv[4])},
-        .size = {0.2,0.2 }
+        .size = {0.5,0.5}
     };
     optsystem_update_goal_region (opttree->optsys, &goal_region);
 
@@ -85,16 +83,16 @@ int main (int argc, char *argv[]) {
     // 3. Run opttree in iterations
     int64_t time_start = ts_now(); 
     gboolean b=FALSE;
-    for (int i = 0; i < num_iterations; i++) {
+    for (int i = 0; i < 15000; i++) {
 
         opttree_iteration (opttree);
         
-        if ( (i != 0 ) && (i%1000 == 0) ) {
-	    if ((opttree->lower_bound<99999) && (b==FALSE)){
+        if ( (i != 0 ) && (i != 1000 ) && (i%1000 == 0)  ) {
+	    /*if ((opttree->lower_bound<99999) && (b==FALSE)){
 		b=TRUE;
 		x=i/1000;
 		num_iterations=i+(i*40*log(x))/(x*x);
-	    }
+	    }*/
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
                     ((double)(ts_now() - time_start))/1000000.0, opttree->lower_bound); 
         }
@@ -102,20 +100,22 @@ int main (int argc, char *argv[]) {
     printf("\n\n");
     
     //4.Print results
-    //4.1Print obstacles
 	fprintf(planisphere,"{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
+    //4.1Print obstacles
+	/*fprintf(planisphere,"{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
 	while(obstacle_list){	
 		fprintf(planisphere,"{ \"type\": \"Feature\", \"properties\": { \"id\": 0 }, \"geometry\": { \"type\": \"Polygon\", \"coordinates\": [ [");
         
-		region_2d_t *obstacle_region = (region_2d_t *) (obstacle_list->data);
-
-                fprintf(planisphere,"[%3.5lf,%3.5lf]",obstacle_region->center[0]-obstacle_region->size[0]/2.0,obstacle_region->center[1]+obstacle_region->size[1]/2.0);
-    		fprintf(planisphere,",[%3.5lf,%3.5lf]",obstacle_region->center[0]+obstacle_region->size[0]/2.0,obstacle_region->center[1]+obstacle_region->size[1]/2.0);
-		fprintf(planisphere,",[%3.5lf,%3.5lf]",obstacle_region->center[0]+obstacle_region->size[0]/2.0,obstacle_region->center[1]-obstacle_region->size[1]/2.0);
-		fprintf(planisphere,",[%3.5lf,%3.5lf]",obstacle_region->center[0]-obstacle_region->size[0]/2.0,obstacle_region->center[1]-obstacle_region->size[1]/2.0);
+		GSList *obstacle = NULL;
+		obstacle = g_slist_append (obstacle, (obstacle_list->data));
+		while(obstacle){
+		state_t *state = (state_t *)(obstacle->data);
+                fprintf(planisphere,"[%3.5lf,%3.5lf]",state->x[0],state->x[1]);
+		obstacle=g_slist_next(obstacle);
+		}
 		fprintf(planisphere,"] ] } }\n\n,\n");
 		obstacle_list = g_slist_next (obstacle_list);			
-	}
+	}*/
 		
 
     // 4.2Print the path
@@ -192,6 +192,7 @@ int main (int argc, char *argv[]) {
 	fclose(planisphere);
     // 5. Destroy the opttree structure
     	opttree_destroy (opttree);
+	
     printf("%5.5lf\n",((double)(ts_now() - t))/1000000.0);
     return 1;
 }

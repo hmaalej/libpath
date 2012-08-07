@@ -1,5 +1,6 @@
 
 # Compiler and Linker
+
 CC           := gcc
 LD           := gcc
 
@@ -13,15 +14,17 @@ LDFLAGS_STD  := -lm
 CFLAGS_GLIB  := `pkg-config --cflags glib-2.0 gmodule-2.0`
 LDFLAGS_GLIB := `pkg-config --libs glib-2.0 gmodule-2.0 gthread-2.0 gobject-2.0`
 
+LDFLAGS_GEOS := -lgeos_c 
+
 %.o: %.c %.h
 	@echo "    [$@]"
 	$(CC) $(CFLAGS) -c $< 
 
 
-CFLAGS = $(CFLAGS_STD) $(CFLAGS_GLIB)
+CFLAGS = $(CFLAGS_STD) $(CFLAGS_GLIB) $(-I//usr/local/include)
 
 
-LDFLAGS = $(LDFLAGS_STD) $(LDFLAGS_GLIB) 
+LDFLAGS = $(LDFLAGS_STD) $(LDFLAGS_GLIB) $(LDFLAGS_GEOS)
 
 
 OPTTREE_OBJS =  opttree.o \
@@ -36,7 +39,7 @@ all: $(OPTTREE)
 
 
 $(OPTTREE): $(OPTTREE_DEPENDENCIES)
-	$(CC) -g -o $@ $(OPTTREE_OBJS) $(LDFLAGS) $(CFLAGS) 
+	$(CC) -g -o  $@ $(OPTTREE_OBJS) $(LDFLAGS) $(CFLAGS) 
 
 
 clean:

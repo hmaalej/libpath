@@ -31,7 +31,9 @@ http://arxiv.org/abs/1005.0416
 */
 
 #include "optsystem.h"
+#include <stdarg.h>
 
+#include "geos_c.h"
 
 // Returns 1 iff (state) is on an obstacle
 gboolean 
@@ -41,7 +43,30 @@ optsystem_on_obstacle (optsystem_t *self, state_t *state);
 int 
 optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final, int num_steps);
 
+void
+notice(const char *fmt, ...) {
+	va_list ap;
 
+        fprintf( stdout, "NOTICE: ");
+        
+	va_start (ap, fmt);
+        vfprintf( stdout, fmt, ap);
+        va_end(ap);
+        fprintf( stdout, "\n" );
+}
+
+void
+log_and_exit(const char *fmt, ...) {
+	va_list ap;
+
+        fprintf( stdout, "ERROR: ");
+        
+	va_start (ap, fmt);
+        vfprintf( stdout, fmt, ap);
+        va_end(ap);
+        fprintf( stdout, "\n" );
+	exit(1);
+}
 // Allocates memory for and initializes an empty dynamical system
 int optsystem_new_system (optsystem_t *self) {
     
@@ -199,8 +224,9 @@ double optsystem_evaluate_distance_for_cost (optsystem_t *self, GSList *inputs) 
 // Checks whether the line segment between (state_initial) and (state_final) lies on an obstacle
 int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final, int num_steps) {
 
-    GSList *obstacle_list_curr = self->obstacle_list;
-
+    
+    
+	/*
     while (obstacle_list_curr) {
         region_2d_t *obstacle_region = (region_2d_t *) (obstacle_list_curr->data);
         double center[2] = {
@@ -233,7 +259,90 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
         obstacle_list_curr = g_slist_next (obstacle_list_curr);
     }
     
+    return 0;*/
+
+	initGEOS(notice, log_and_exit);
+	GEOSGeometry* g1;
+	GEOSGeometry* g2;
+	GSList *obstacle_list_curr = self->obstacle_list;
+	
+    
+    //create with coordinates 
+	GEOSCoordSequence* cs1;
+	GEOSCoordSequence* cs2;
+	GEOSGeometry* shell;
+	int i;
+        int j=0;
+/*cs1 = GEOSCoordSeq_create(2,2);
+
+
+i=GEOSCoordSeq_setX(cs1, 0, state_initial->x[0]);
+
+i=GEOSCoordSeq_setY(cs1, 0,state_initial->x[1]);
+
+i=GEOSCoordSeq_setX(cs1, 1, state_final->x[0]);
+
+i=GEOSCoordSeq_setY(cs1, 1,state_final->x[1]);
+
+g1 = GEOSGeom_createLinearRing(cs1);
+*/
+while (obstacle_list_curr) {
+	GSList *obstacle = (obstacle_list_curr->data); 
+	
+	cs2= GEOSCoordSeq_create(g_slist_length (obstacle),2);
+	
+	while(obstacle) {
+		state_t *point=(state_t *)(obstacle->data);
+		i=GEOSCoordSeq_setX(cs2, j, point->x[0]);
+		i=GEOSCoordSeq_setY(cs2, j, point->x[1]);
+		obstacle=g_slist_next(obstacle);
+		j++;
+	}
+	
+	
+	
+	shell = GEOSGeom_createLinearRing(cs2);
+	g2 = GEOSGeom_createPolygon(shell, NULL, 0);
+	double disc[2] = {
+            (state_final->x[0] - state_initial->x[0])/( (double)num_steps ),
+            (state_final->x[1] - state_initial->x[1])/( (double)num_steps )
+        };
+
+        double state_curr[2] = {
+            state_initial->x[0],
+            state_initial->x[1]
+        };
+
+	
+	cs1 = GEOSCoordSeq_create(1,2);
+
+	int k;
+	
+	 for ( k = 0; k < num_steps; k++) {
+	    i=GEOSCoordSeq_setX(cs1, 0, state_curr[0]);
+
+	    i=GEOSCoordSeq_setY(cs1, 0,state_curr[1]);
+
+	    g1 = GEOSGeom_createPoint(cs1);
+            if (GEOSContains(g2,g1)) {
+		finishGEOS();
+                return 1;
+            }
+            state_curr[0] += disc[0];
+            state_curr[1] += disc[1];
+        }
+	/*if (GEOSIntersects(g2, g1) ){ 
+		
+		finishGEOS();	
+		return 1;
+	}*/
+	
+ 	obstacle_list_curr = g_slist_next (obstacle_list_curr);
+}
+
+    finishGEOS();
     return 0;
+
 }
 
 
@@ -290,10 +399,13 @@ int optsystem_extend_to (optsystem_t *self, state_t *state_from, state_t *state_
 }
 
 
+
+
+
 // Checks whether a given state is on an obstacle
 gboolean optsystem_on_obstacle (optsystem_t *self, state_t *state) {
 
-    GSList *obstacle_list_curr = self->obstacle_list;
+    /*GSList *obstacle_list_curr = self->obstacle_list;
 
     while (obstacle_list_curr) {
         region_2d_t *obstacle_region = (region_2d_t *) (obstacle_list_curr->data);
@@ -303,8 +415,115 @@ gboolean optsystem_on_obstacle (optsystem_t *self, state_t *state) {
             return 1;
 
         obstacle_list_curr = g_slist_next (obstacle_list_curr);
-    }
+    }*/
+    	initGEOS(notice, log_and_exit);
+	GEOSGeometry* g1;
+	GEOSGeometry* g2;
+	GSList *obstacle_list_curr = self->obstacle_list;
+	//create with wkt (troop lent)
+	/*char point[100]="POINT( "; 
+	char point_x[10];
+	char point_y[10];
+	sprintf(point_x, "%3.5lf", state->x[0]);
+	sprintf(point_y, "%3.5lf", state->x[1]);
+	strcat(point, point_x);
+	strcat(point, " ");
+	strcat(point,point_y);
+	strcat(point, ")");
+	g1= GEOSGeomFromWKT(point);
+	
+    GSList *obstacle_list_curr = self->obstacle_list;
+    while (obstacle_list_curr) {
+    	char poly[100]="POLYGON(( "; 
+    	char poly_x[10];
+    	char poly_y[10];
+   
+        region_2d_t *obstacle_region = (region_2d_t *) (obstacle_list_curr->data);    
+	sprintf(poly_x, "%3.5lf", obstacle_region->center[0]-obstacle_region->size[0]/2.0);
+	sprintf(poly_y, "%3.5lf", obstacle_region->center[1]-obstacle_region->size[1]/2.0);
+	strcat(poly, poly_x);
+	strcat(poly, " ");
+	strcat(poly,poly_y);
+
+        
+	strcat(poly, ",");  
+	sprintf(poly_x, "%3.5lf", obstacle_region->center[0]+obstacle_region->size[0]/2.0);
+	sprintf(poly_y, "%3.5lf", obstacle_region->center[1]+obstacle_region->size[1]/2.0);
+	strcat(poly, poly_x);
+	strcat(poly, " ");
+	strcat(poly,poly_y);
+	
+	strcat(poly, ",");  
+	sprintf(poly_x, "%3.5lf", obstacle_region->center[0]+obstacle_region->size[0]/2.0);
+	sprintf(poly_y, "%3.5lf", obstacle_region->center[1]-obstacle_region->size[1]/2.0);
+	strcat(poly, poly_x);
+	strcat(poly, " ");
+	strcat(poly,poly_y);
+	
+	strcat(poly, ",");  
+	sprintf(poly_x, "%3.5lf", obstacle_region->center[0]-obstacle_region->size[0]/2.0);
+	sprintf(poly_y, "%3.5lf", obstacle_region->center[1]-obstacle_region->size[1]/2.0);
+	strcat(poly, poly_x);
+	strcat(poly, " ");
+	strcat(poly,poly_y);	
+	
+	strcat(poly, "))");
+	
+	g2 = GEOSGeomFromWKT( poly);
+
+    	if ( GEOSContains(g2, g1) ){ 
+		finishGEOS();	
+		return 1;
+ 	}
+	
+     	obstacle_list_curr = g_slist_next (obstacle_list_curr);
+
+    }*/
     
+
+    //create with coordinates 
+	GEOSCoordSequence* cs1;
+	GEOSCoordSequence* cs2;
+	GEOSGeometry* shell;
+	int i;
+        int j=0;
+cs1 = GEOSCoordSeq_create(1,2);
+
+
+i=GEOSCoordSeq_setX(cs1, 0, state->x[0]);
+
+i=GEOSCoordSeq_setY(cs1, 0,state->x[1]);
+
+g1 = GEOSGeom_createPoint(cs1);
+
+while (obstacle_list_curr) {
+	GSList *obstacle = (obstacle_list_curr->data); 
+	
+	cs2= GEOSCoordSeq_create(g_slist_length (obstacle),2);
+	
+	while(obstacle) {
+		state_t *point=(state_t *)(obstacle->data);
+		i=GEOSCoordSeq_setX(cs2, j, point->x[0]);
+		i=GEOSCoordSeq_setY(cs2, j, point->x[1]);
+		obstacle=g_slist_next(obstacle);
+		j++;
+	}
+	
+	
+	
+	shell = GEOSGeom_createLinearRing(cs2);
+	g2 = GEOSGeom_createPolygon(shell, NULL, 0);
+	
+	if ( GEOSContains(g2, g1) ){ 
+		
+		finishGEOS();	
+		return 1;
+	}
+	
+ 	obstacle_list_curr = g_slist_next (obstacle_list_curr);
+}
+
+    finishGEOS();
     return 0;
 }
 
