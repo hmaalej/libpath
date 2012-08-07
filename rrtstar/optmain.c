@@ -8,7 +8,7 @@
 #include <sys/time.h>
 
 #include "opttree.h"
-
+#include "geos_c.h"
 
 // Returns current time 
 int64_t
@@ -18,7 +18,30 @@ ts_now () {
   return (int64_t) tv.tv_sec * 1000000 + tv.tv_usec;
 }
 
+void
+notice1(const char *fmt, ...) {
+	va_list ap;
 
+        fprintf( stdout, "NOTICE: ");
+        
+	va_start (ap, fmt);
+        vfprintf( stdout, fmt, ap);
+        va_end(ap);
+        fprintf( stdout, "\n" );
+}
+
+void
+log_and_exit1(const char *fmt, ...) {
+	va_list ap;
+
+        fprintf( stdout, "ERROR: ");
+        
+	va_start (ap, fmt);
+        vfprintf( stdout, fmt, ap);
+        va_end(ap);
+        fprintf( stdout, "\n" );
+	exit(1);
+}
 
 int main (int argc, char *argv[]) {
     
@@ -42,26 +65,45 @@ int main (int argc, char *argv[]) {
     // 2.a. create the operating region
     region_2d_t operating_region = {
         .center = {0, 50},
-        .size = {12.0, 20.0}
+        .size = {20.0, 20.0}
     };
     optsystem_update_operating_region (opttree->optsys, &operating_region);
     
     
     // 2.b create obstacles
-
+    initGEOS(notice1, log_and_exit1);
     GSList *obstacle_list = NULL;
     GSList *obstacle = NULL;
     state_t *node;
+	GEOSCoordSequence* cs;
+	GEOSGeometry* g;
+	GEOSGeometry* shell;
+	int k;
     while( fscanf(f_obstacles,"%lf,%lf ",&x,&y)!=EOF){
     node = malloc (sizeof (state_t));
     node->x[0] = x;
     node->x[1] = y;
     
     obstacle=g_slist_prepend(obstacle,node);
-    } 
-	obstacle_list = g_slist_prepend (obstacle_list, obstacle);
+	}
+	cs= GEOSCoordSeq_create(g_slist_length (obstacle),2);
+	int j=0;
+	while(obstacle) {
+		state_t *point=(state_t *)(obstacle->data);
+		k=GEOSCoordSeq_setX(cs, j, point->x[0]);
+		k=GEOSCoordSeq_setY(cs, j, point->x[1]);
+		obstacle=g_slist_next(obstacle);
+		j++;
+	}
+	
+	
+	shell = GEOSGeom_createLinearRing(cs);
+	g = GEOSGeom_createPolygon(shell, NULL, 0);
+	    
+	 
+	obstacle_list = g_slist_prepend (obstacle_list, g);
     fclose(f_obstacles);
-   
+   finishGEOS();
     
     optsystem_update_obstacles (opttree->optsys, obstacle_list);
 
@@ -83,16 +125,16 @@ int main (int argc, char *argv[]) {
     // 3. Run opttree in iterations
     int64_t time_start = ts_now(); 
     gboolean b=FALSE;
-    for (int i = 0; i < 15000; i++) {
-
+    for (int i = 0; i < num_iterations; i++) {
+	
         opttree_iteration (opttree);
-        
+          
         if ( (i != 0 ) && (i != 1000 ) && (i%1000 == 0)  ) {
-	    /*if ((opttree->lower_bound<99999) && (b==FALSE)){
+	    if ((opttree->lower_bound<99999) && (b==FALSE)){
 		b=TRUE;
 		x=i/1000;
 		num_iterations=i+(i*40*log(x))/(x*x);
-	    }*/
+	    }
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
                     ((double)(ts_now() - time_start))/1000000.0, opttree->lower_bound); 
         }
