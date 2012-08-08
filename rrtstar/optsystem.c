@@ -335,7 +335,7 @@ gboolean optsystem_on_obstacle (optsystem_t *self, state_t *state) {
 
     //create with coordinates 
 	GEOSCoordSequence* cs1;
-	GEOSCoordSequence* cs2;
+	
 	GEOSGeometry* shell;
 	int i;
         int j=0;

@@ -64,8 +64,8 @@ int main (int argc, char *argv[]) {
     // 2. Setup the environment
     // 2.a. create the operating region
     region_2d_t operating_region = {
-        .center = {0, 50},
-        .size = {20.0, 20.0}
+        .center = {0, 0},
+        .size = {18, 9}
     };
     optsystem_update_operating_region (opttree->optsys, &operating_region);
     
@@ -79,13 +79,15 @@ int main (int argc, char *argv[]) {
 	GEOSGeometry* g;
 	GEOSGeometry* shell;
 	int k;
-    while( fscanf(f_obstacles,"%lf,%lf ",&x,&y)!=EOF){
-    node = malloc (sizeof (state_t));
-    node->x[0] = x;
-    node->x[1] = y;
-    
-    obstacle=g_slist_prepend(obstacle,node);
-	}
+	int cpt_continent=1;
+
+while(cpt_continent<13){	
+    while( fscanf(f_obstacles,"[ %lf, %lf ]",&x,&y)!=0){
+    	node = malloc (sizeof (state_t));
+  	node->x[0] = x/20;
+    	node->x[1] = y/20;
+       	obstacle=g_slist_prepend(obstacle,node);
+    }
 	cs= GEOSCoordSeq_create(g_slist_length (obstacle),2);
 	int j=0;
 	while(obstacle) {
@@ -102,6 +104,11 @@ int main (int argc, char *argv[]) {
 	    
 	 
 	obstacle_list = g_slist_prepend (obstacle_list, g);
+    fscanf(f_obstacles,"\n\n");
+    cpt_continent++;
+}
+
+     
     fclose(f_obstacles);
    finishGEOS();
     
@@ -116,7 +123,7 @@ int main (int argc, char *argv[]) {
     // 2.d. create the goal region
     region_2d_t goal_region = {
         .center = {atof(argv[3]), atof(argv[4])},
-        .size = {0.5,0.5}
+        .size = {0.4,0.4}
     };
     optsystem_update_goal_region (opttree->optsys, &goal_region);
 
@@ -132,8 +139,9 @@ int main (int argc, char *argv[]) {
         if ( (i != 0 ) && (i != 1000 ) && (i%1000 == 0)  ) {
 	    if ((opttree->lower_bound<99999) && (b==FALSE)){
 		b=TRUE;
-		x=i/1000;
-		num_iterations=i+(i*40*log(x))/(x*x);
+		/*x=i/1000;
+		num_iterations=i+(i*40*log(x))/(x*x);*/
+		num_iterations=i+2000;
 	    }
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
                     ((double)(ts_now() - time_start))/1000000.0, opttree->lower_bound); 
@@ -220,9 +228,9 @@ int main (int argc, char *argv[]) {
 
     	fclose (f_ptr);
     	f_ptr = fopen ("optpath.txt", "r");
-	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",root_state.x[0],root_state.x[1]);
+	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",root_state.x[0]*20,root_state.x[1]*20);
 	while( fscanf(f_ptr,"%lf %lf",&x,&y)!=EOF){
-   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",x,y);
+   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",x*20,y*20);
     	        fscanf(f_ptr,"\n");
 	} 
     

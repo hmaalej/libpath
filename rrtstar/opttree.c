@@ -598,7 +598,7 @@ int opttree_iteration (opttree_t *self) {
             if (optsystem_sample_target_state (self->optsys, &state_random) == 0)
                 return 0;
         }
-    }{
+    } else {
         if (rand()/(RAND_MAX + 1.0) > self->target_sample_prob_before_first_solution) {
             if (optsystem_sample_state (self->optsys, &state_random) == 0)
                 return 0;
@@ -745,7 +745,7 @@ opttree_t* opttree_create () {
     self->ball_radius_constant = 30.0;
     self->ball_radius_max = 1.0;
     self->target_sample_prob_after_first_solution = 0.0;
-    self->target_sample_prob_before_first_solution = 0.0;
+    self->target_sample_prob_before_first_solution = 0.9;
     return self;
 }
 
