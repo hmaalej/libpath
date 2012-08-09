@@ -52,7 +52,7 @@ int optsystem_new_system (optsystem_t *self) {
         self->initial_state->x[i] = 0.0;
 
     self->obstacle_list = NULL;
-    
+    self->rectangle_list = NULL;
     return 1;
 }
 void
@@ -225,14 +225,15 @@ double optsystem_evaluate_distance_for_cost (optsystem_t *self, GSList *inputs) 
 int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final, int num_steps) {
 
     	initGEOS(notice, log_and_exit);
-	
+	GEOSGeometry* g3;
 	GEOSGeometry* g1;
 	GSList *obstacle_list_curr = self->obstacle_list;
-	
+	GSList *rectangle_list_curr = self->rectangle_list;
     
     //create with coordinates 
 	GEOSCoordSequence* cs1;
 	GEOSCoordSequence* cs2;
+	GEOSCoordSequence* cs3;
 	GEOSGeometry* shell;
 	int i;
         int j=0;
@@ -249,17 +250,29 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
 
 
 	g1 = GEOSGeom_createLineString(cs1);
-
+	/*
+	while (rectangle_list_curr) {
+		GEOSGeometry* g3 = (rectangle_list_curr->data); 
+	
+		if (GEOSIntersects(g1,g3)) {
+			finishGEOS();
+			return 1;
+		}
+		rectangle_list_curr = g_slist_next (rectangle_list_curr);
+	}
+	*/
+	GEOSGeometry* g2;
 	while (obstacle_list_curr) {
-		GEOSGeometry* g2 = (obstacle_list_curr->data); 
+		g2 = (obstacle_list_curr->data); 
 	
 		if (GEOSIntersects(g1,g2)) {
-		finishGEOS();
-		return 1;
-	}
+			finishGEOS();
+			return 1;
+		}
 
-	obstacle_list_curr = g_slist_next (obstacle_list_curr);
-}
+		obstacle_list_curr = g_slist_next (obstacle_list_curr);		
+	}
+	
 
     finishGEOS();
     return 0;
@@ -331,12 +344,15 @@ gboolean optsystem_on_obstacle (optsystem_t *self, state_t *state) {
 	GEOSGeometry* g1;
 	GEOSGeometry* g2;
 	GSList *obstacle_list_curr = self->obstacle_list;
-	
+	GSList *rectangle_list_curr = self->rectangle_list;
 
     //create with coordinates 
 	GEOSCoordSequence* cs1;
 	
 	GEOSGeometry* shell;
+	GEOSCoordSequence* cs3;
+	GEOSGeometry* g3;
+	
 	int i;
         int j=0;
 cs1 = GEOSCoordSeq_create(1,2);
@@ -348,8 +364,21 @@ i=GEOSCoordSeq_setY(cs1, 0,state->x[1]);
 
 g1 = GEOSGeom_createPoint(cs1);
 
+/*
+while (rectangle_list_curr) {
+	g3 = (rectangle_list_curr->data);
+	
+	if ( GEOSContains(g3, g1) ){ 
+		
+		finishGEOS();	
+		return 1;
+	}
+	
+ 	rectangle_list_curr = g_slist_next (rectangle_list_curr);
+}	
+*/
 while (obstacle_list_curr) {
-	GEOSGeometry* g2 = (obstacle_list_curr->data);
+	g2 = (obstacle_list_curr->data);
 	
 	if ( GEOSContains(g2, g1) ){ 
 		
@@ -525,6 +554,30 @@ gboolean optsystem_update_obstacles (optsystem_t *self, GSList *obstacle_list) {
         self->obstacle_list = g_slist_prepend (self->obstacle_list, g_curr);
 
         obstacle_list_curr = g_slist_next (obstacle_list_curr);
+    }
+
+    return TRUE;
+}
+
+//create rectangle_list
+gboolean optsystem_update_rectangles (optsystem_t *self, GSList *rectangle_list) {
+
+    // Clear the previous rectangle
+    while (self->rectangle_list) {
+        GEOSGeometry* g = (self->rectangle_list->data);
+        self->rectangle_list = g_slist_remove (self->rectangle_list, g);
+        free (g);
+    }
+    
+    // Add new obstacles
+    GSList *rectangle_list_curr = rectangle_list;
+    while (rectangle_list_curr) {
+	GEOSGeometry* g_curr = (rectangle_list_curr->data);
+	
+      
+        self->rectangle_list = g_slist_prepend (self->rectangle_list, g_curr);
+
+        rectangle_list_curr = g_slist_next (rectangle_list_curr);
     }
 
     return TRUE;

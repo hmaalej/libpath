@@ -139,6 +139,8 @@ optsystem_update_goal_region (optsystem_t *self, region_2d_t *goal_region);
 gboolean 
 optsystem_update_obstacles (optsystem_t *self, GSList *obstacle_list);
 
+//Updates the list of rectangles
+gboolean optsystem_update_rectangles (optsystem_t *self, GSList *rectangle_list);
 // A 3D region to describe operating and goal regions as well as obstacles
 struct _region_2d_t {
     double center[2];
@@ -170,6 +172,8 @@ struct _optsystem_t {
     region_2d_t goal_region;       // Goal region
 
     GSList *obstacle_list;         // A list of obstacles
+
+    GSList *rectangle_list; 	// A list of rectangles
 };
 
 
