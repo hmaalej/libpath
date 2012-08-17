@@ -63,9 +63,22 @@ int main (int argc, char *argv[]) {
     
     // 2. Setup the environment
     // 2.a. create the operating region
-    region_2d_t operating_region = {
-        .center = {0,0 },
-        .size = {18, 9}
+ int c1,c2,s1,s2;
+    if ((atof(argv[1])>-10) && (atof(argv[1])<50) && (atof(argv[2])>30) && (atof(argv[2])<50) && (atof(argv[3])>-10) && (atof(argv[3])<50) && (atof(argv[4])>30) && (atof(argv[4])<50)) {
+	c1= 1;
+	c2= 2;
+	s1= 3;
+	s2= 1;
+    }	
+    else {
+	c1= 0;
+	c2= 0;
+	s1= 18;
+	s2= 9;
+    }	
+	region_2d_t operating_region = {
+        .center = {c1,c2 },
+        .size = {s1,s2 }
     };
     optsystem_update_operating_region (opttree->optsys, &operating_region);
     
@@ -220,20 +233,26 @@ cpt_poly++;
     state_t root_state = {
         .x = {atof(argv[1])/20, atof(argv[2])/20}
     };
-    opttree_set_root_state (opttree, &root_state);
+    
 
     // 2.d. create the goal region
 	state_t arrival_state = {
         .x = {atof(argv[3])/20, atof(argv[4])/20}
     	};
+	//on sort du point de la mediteranée
+	if ((atof(argv[3])>-10) && (atof(argv[3])<50) && (atof(argv[4])>30) && (atof(argv[4])<50)){
+		state_t state_perm=root_state;
+		root_state=arrival_state;
+		arrival_state=state_perm;
+	}
 	double d=optsystem_evaluate_distance (opttree->optsys, &root_state, &arrival_state);
 	int s;
 	if (d<1) {s=0.05;} else {s=0.2;}
 	region_2d_t goal_region = {
-        	.center = {atof(argv[3])/20, atof(argv[4])/20},
+        	.center = {arrival_state.x[0],arrival_state.x[1]},
         	.size = {s,s}
     	};
-	
+    opttree_set_root_state (opttree, &root_state);
     optsystem_update_goal_region (opttree->optsys, &goal_region);
  /*
     //2.e rectangle
@@ -329,17 +348,25 @@ else {
         if ( (i != 0 ) && (i != 100 ) && (i%100 == 0)  ) {
 	    if ((opttree->lower_bound<99999) && (b==FALSE)){
 		b=TRUE;
+		
 		/*x=i/1000;
 		num_iterations=i+(i*40*log(x))/(x*x);*/
-		if ((opttree->lower_bound)*20<50)
-		num_iterations=i+1002;
+		/*if ((opttree->lower_bound)*20<50)
+		num_iterations=i+502;
 		if (((opttree->lower_bound)*20>=50) && ((opttree->lower_bound)*20<200))
-		num_iterations=i+2002;
+		num_iterations=i+1002;
 		if (((opttree->lower_bound)*20>=200)&&((opttree->lower_bound)*20<400) )
-		num_iterations=i+3002;
+		num_iterations=i+2002;
 		if (((opttree->lower_bound)*20>=400))
 		num_iterations=i+4002;
-	
+		//cas particulier: 
+			//il y'a deja asez d'iteration
+		if (i>50000)
+		num_iterations=i+502;
+			//il y'a trés peu d'iteration
+		if (i<3000)
+		num_iterations=i+1002;*/
+		num_iterations=i+200;
 	    }
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
                     ((double)(ts_now() - time_start))/1000000.0, (opttree->lower_bound)*20); 
@@ -388,7 +415,10 @@ else {
 	double ty3[300];
 	double tx3_i[300];
 	double ty3_i[300];
-		
+	double tx_f[3000];
+	double ty_f[3000];
+	double tx_x[3000];
+	double ty_y[3000];
 	// list des points formants le chemmin ideal
 	
 	
@@ -448,7 +478,7 @@ else {
             optstates_ptr = g_slist_next (optstates_ptr);
         }
     	}
-
+	
     	fclose (f_ptr);
     	/*f_ptr = fopen ("optpath.txt", "r");
 	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",root_state.x[0]*20,root_state.x[1]*20);
@@ -458,6 +488,7 @@ else {
 	} 
 	fclose(f_ptr);*/
     	//algo modif
+
 		//parcours de haut en bas
 		f_ptr = fopen ("optpath.txt", "r");
 		tx[0]=root_state.x[0];
@@ -502,8 +533,11 @@ else {
 			}
 			printf("%d\n",i);
 		}
-		k--;
-
+		
+		int nb_point=k;
+		k--; 
+		printf("nb_point=%d\n",nb_point);
+		/*
 		//parcours de bas en haut
 
 		tx2[0]=tx_i[0];
@@ -548,8 +582,8 @@ else {
 			}
 			printf("%d\n",i);
 		}
-		k--;
-
+		k--;*/
+/*
 		//parcours tous points->milieux
 
 		tx3[0]=tx2_i[0];
@@ -610,8 +644,219 @@ else {
 			printf("%d\n",i);
 		}
 		k--;
+*/
+//optimisation chemin
+//tx_f[0]=tx_i[0];
+//ty_f[0]=ty_i[0];
+/*
+tx[0]=root_state.x[0];
+ty[0]=root_state.x[1];
+i=0;
+while( fscanf(f_ptr,"%lf %lf",&x,&y)!=EOF){
+			i++;  	
+			tx[i]=x;
+			ty[i]=y;   		
+			fscanf(f_ptr,"\n");
+} 
+int nb=i;
+int nb_point=0;
+tx_f[0]=tx[0];
+ty_f[0]=ty[0];
+for (i=0;i<nb;i++){
+	x=-(tx[i]-tx[i+1])/10;
+	y=-(ty[i]-ty[i+1])/10;
+	for ( k=1;k<11;k++) {
+		tx_f[k+10*i]=tx_f[k+10*i-1]+x;
+		ty_f[k+10*i]=ty_f[k+10*i-1]+y;
+		nb_point++;
+	}
+}
+printf("nb_point=%d\n",nb_point);
+k=nb_point;
+int ind=0;
+int nb_final=0;
+i=0;
+//for(i=0;i<nb_point;i++){
+while(ind!=nb_point){
+	state_t state_i = {
+        				.x = {tx_f[i], ty_f[i]}
+    				};	
+				
+	state_t state_f = {
+        				.x = {tx_f[nb_point], ty_f[nb_point]}
+    				};			
+	
+	gboolean b=0;
+	state_t state_trans = state_f ;
+	int cpt=nb_point;
+	while(!b) {
+		if ((cpt-ind<11) && (cpt%10==0)){
+			tx_f[i+1]=tx_f[ind+1];
+			ty_f[i+1]=ty_f[ind+1];
+			b=1;
+			ind++;
+			nb_final++;
+		} else if(optsystem_segment_on_obstacle (opttree->optsys, &state_i, &state_trans, 100)==0){
+			printf("tasli7\n");			
+			tx_f[i+1]= state_trans.x[0];
+			ty_f[i+1]= state_trans.x[1];
+			b=1;
+			ind=cpt;
+			nb_final++;
+		}
+		cpt--;
+		state_trans.x[0]=tx_f[cpt];
+		state_trans.x[1]=ty_f[cpt];
+		
+	}
+i++;
+}
+
+
+		tx_i[0]=tx_f[nb_final];
+		ty_i[0]=ty_f[nb_final];
+		//indice tableau resultat
+		k = 1;
+		i=nb_final;
+		while (i != 0) {
+			state_t state_a = {
+        				.x = {tx_f[i], ty_f[i]}
+    				};			
+			b=0;
+			j=0;
+			while( !b ){
+				state_t state_b = {
+        				.x = {tx_f[j], ty_f[j]}
+    				};
+				if(optsystem_segment_on_obstacle (opttree->optsys, &state_a, &state_b, 100)==0){
+					tx_i[k]=tx_f[j];
+					ty_i[k]=ty_f[j];
+					k++;
+					i=j;
+					b=1;
+				}
+			
+			j++;
+			}
+			printf("%d\n",i);
+		}
+		k--;
+		int nb_points=k;
+		
+
+
+for (i=0;i<nb_points;i++){
+	x=-(tx_i[i]-tx_i[i+1])/10;
+	y=-(ty_i[i]-ty_i[i+1])/10;
+	for ( k=1;k<11;k++) {
+		tx_f[k+10*i]=tx_f[k+10*i-1]+x;
+		ty_f[k+10*i]=ty_f[k+10*i-1]+y;
+		nb_point++;
+	}
+}
+printf("nb_point=%d\n",nb_point);
+k=nb_point;
+ind=0;
+nb_final=0;
+i=0;
+//for(i=0;i<nb_point;i++){
+while(ind!=nb_point){
+	state_t state_i = {
+        				.x = {tx_f[i], ty_f[i]}
+    				};	
+				
+	state_t state_f = {
+        				.x = {tx_f[nb_point], ty_f[nb_point]}
+    				};			
+	
+	gboolean b=0;
+	state_t state_trans = state_f ;
+	int cpt=nb_point;
+	while(!b) {
+		if ((cpt-ind<11) && (cpt%10==0)){
+			tx_f[i+1]=tx_f[ind+1];
+			ty_f[i+1]=ty_f[ind+1];
+			b=1;
+			ind++;
+			nb_final++;
+		} else if(optsystem_segment_on_obstacle (opttree->optsys, &state_i, &state_trans, 100)==0){
+			printf("tasli7\n");			
+			tx_f[i+1]= state_trans.x[0];
+			ty_f[i+1]= state_trans.x[1];
+			b=1;
+			ind=cpt;
+			nb_final++;
+		}
+		cpt--;
+		state_trans.x[0]=tx_f[cpt];
+		state_trans.x[1]=ty_f[cpt];
+		
+	}
+i++;
+}
+*/
+
+
+for(i=0;i<nb_point-2;i++){
+	state_t state_0 = {
+        				.x = {tx_i[i], ty_i[i]}
+    				};	
+	state_t state_1 = {
+        				.x = {tx_i[i+1], ty_i[i+1]}
+    				};			
+	state_t state_2 = {
+        				.x = {tx_i[i+2], ty_i[i+2]}
+    				};			
+	
+	//la division du segment doit etre en fonction de sa longeur a faire aprés	
+	x=(tx_i[i+1]-tx_i[i+2])/10;
+	y=(ty_i[i+1]-ty_i[i+2])/10;
+	gboolean b=0;
+	state_t state_trans = state_2;
+	while(!b) {
+		if(optsystem_segment_on_obstacle (opttree->optsys, &state_0, &state_trans, 100)==0){
+			printf("tasli7\n");			
+			tx_i[i+1]= state_trans.x[0];
+			ty_i[i+1]= state_trans.x[1];
+			b=1;
+		}
+		state_trans.x[0]=state_trans.x[0]+x;
+		state_trans.x[1]=state_trans.x[1]+y;
+	}
+}
+
+for(i=nb_point-1;i>1;i--){
+	state_t state_0 = {
+        				.x = {tx_i[i], ty_i[i]}
+    				};	
+	state_t state_1 = {
+        				.x = {tx_i[i-1], ty_i[i-1]}
+    				};			
+	state_t state_2 = {
+        				.x = {tx_i[i-2], ty_i[i-2]}
+    				};			
+	
+	//la division du segment doit etre en fonction de sa longeur a faire aprés	
+	x=(tx_i[i-1]-tx_i[i-2])/10;
+	y=(ty_i[i-1]-ty_i[i-2])/10;
+	gboolean b=0;
+	state_t state_trans = state_2;
+	while(!b) {
+		if(optsystem_segment_on_obstacle (opttree->optsys, &state_0, &state_trans, 100)==0){
+			tx_i[i-1]= state_trans.x[0];
+			ty_i[i-1]= state_trans.x[1];
+			b=1;
+		}
+		state_trans.x[0]=state_trans.x[0]+x;
+		state_trans.x[1]=state_trans.x[1]+y;
+	}
+}
+
+
+
 
 /*
+
 		tx2[0]=tx_i[k];
 		ty2[0]=ty_i[k];
 		int ii=0;
@@ -654,15 +899,16 @@ else {
 		printf("zaaaaaab\n");
 	k--;
 		printf("%d\n",k);
-	
-*/		//le ,
+*/	
+		//le ,	
 	printf("zaaaaaab\n");
-	printf("%d\n",k);
-	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",tx3_i[k]*20,ty3_i[k]*20);
+	printf("%d\n",nb_point);
+	//k=nb_point-1;
+	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",tx2_i[k]*20,ty2_i[k]*20);
 	while( k!=0 ){
 		printf("%d\n",k);
 		k--;
-   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",tx3_i[k]*20,ty3_i[k]*20);
+   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",tx2_i[k]*20,ty2_i[k]*20);
 	} 
 
 		
@@ -680,4 +926,4 @@ else {
 	
     printf("%5.5lf\n",((double)(ts_now() - t))/1000000.0);
     return 1;
-}
+} 
