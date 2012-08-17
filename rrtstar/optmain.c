@@ -240,11 +240,19 @@ cpt_poly++;
         .x = {atof(argv[3])/20, atof(argv[4])/20}
     	};
 	//on sort du point de la mediteranée
-	if ((atof(argv[3])>-10) && (atof(argv[3])<50) && (atof(argv[4])>30) && (atof(argv[4])<50)){
+	if ((atof(argv[3])>27) && (atof(argv[3])<42) && (atof(argv[4])>40) && (atof(argv[4])<48)){
 		state_t state_perm=root_state;
 		root_state=arrival_state;
 		arrival_state=state_perm;
 	}
+	
+	else if ((atof(argv[3])>-10) && (atof(argv[3])<50) && (atof(argv[4])>30) && (atof(argv[4])<50) && ((atof(argv[1])<27) || (atof(argv[1])>42) || (atof(argv[2])<40) || (atof(argv[2])>48))){
+		state_t state_perm=root_state;
+		root_state=arrival_state;
+		arrival_state=state_perm;
+	}
+	printf("departure:(%lf,%lf)\n",root_state.x[0]*20,root_state.x[1]*20);
+	printf("arrival:(%lf,%lf)\n",arrival_state.x[0]*20,arrival_state.x[1]*20);
 	double d=optsystem_evaluate_distance (opttree->optsys, &root_state, &arrival_state);
 	int s;
 	if (d<1) {s=0.05;} else {s=0.2;}
@@ -351,22 +359,22 @@ else {
 		
 		/*x=i/1000;
 		num_iterations=i+(i*40*log(x))/(x*x);*/
-		/*if ((opttree->lower_bound)*20<50)
+		if ((opttree->lower_bound)*20<50)
 		num_iterations=i+502;
 		if (((opttree->lower_bound)*20>=50) && ((opttree->lower_bound)*20<200))
 		num_iterations=i+1002;
 		if (((opttree->lower_bound)*20>=200)&&((opttree->lower_bound)*20<400) )
 		num_iterations=i+2002;
 		if (((opttree->lower_bound)*20>=400))
-		num_iterations=i+4002;
+		num_iterations=i+3002;
 		//cas particulier: 
 			//il y'a deja asez d'iteration
 		if (i>50000)
 		num_iterations=i+502;
 			//il y'a trés peu d'iteration
 		if (i<3000)
-		num_iterations=i+1002;*/
-		num_iterations=i+200;
+		num_iterations=i+1002;
+		//num_iterations=i+200;
 	    }
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
                     ((double)(ts_now() - time_start))/1000000.0, (opttree->lower_bound)*20); 
@@ -809,8 +817,8 @@ for(i=0;i<nb_point-2;i++){
     				};			
 	
 	//la division du segment doit etre en fonction de sa longeur a faire aprés	
-	x=(tx_i[i+1]-tx_i[i+2])/10;
-	y=(ty_i[i+1]-ty_i[i+2])/10;
+	x=(tx_i[i+1]-tx_i[i+2])/30;
+	y=(ty_i[i+1]-ty_i[i+2])/30;
 	gboolean b=0;
 	state_t state_trans = state_2;
 	while(!b) {
@@ -837,8 +845,8 @@ for(i=nb_point-1;i>1;i--){
     				};			
 	
 	//la division du segment doit etre en fonction de sa longeur a faire aprés	
-	x=(tx_i[i-1]-tx_i[i-2])/10;
-	y=(ty_i[i-1]-ty_i[i-2])/10;
+	x=(tx_i[i-1]-tx_i[i-2])/30;
+	y=(ty_i[i-1]-ty_i[i-2])/30;
 	gboolean b=0;
 	state_t state_trans = state_2;
 	while(!b) {
@@ -851,6 +859,220 @@ for(i=nb_point-1;i>1;i--){
 		state_trans.x[1]=state_trans.x[1]+y;
 	}
 }
+
+//derniere optim
+
+	double px[300];
+	double py[300];
+	double d1x,d1y,d2x,d2y;
+	gboolean b1,b2;
+	px[0]=tx_i[0];
+	py[0]=ty_i[0];
+	j=1;
+	int nb_final;
+	int k1, k2;
+	
+	for(i=1;i<nb_point-1;i++){
+		printf("i=%d\n",i);
+		d1x=(tx_i[i-1]-tx_i[i])/5;
+		d1y=(ty_i[i-1]-ty_i[i])/5;
+		d2x=(tx_i[i+1]-tx_i[i])/5;
+		d2y=(ty_i[i+1]-ty_i[i])/5;
+		
+		k2=2;
+		k1=1;
+		b1=1;
+		b2=1;
+		state_t state_0 = {
+        				.x = {tx_i[i]+d1x, ty_i[i]+d1y}
+    				};
+			
+		while((b1) && (k1<5)){
+			
+			
+			state_t state_1 = {
+				.x = {tx_i[i]+k1*d2x, ty_i[i]+k1*d2y}
+			};
+			
+			if (optsystem_segment_on_obstacle (opttree->optsys, &state_0, &state_1, 100) == 0){
+				k1++;
+				//printf("(%lf,%lf),(%lf,%lf)\n",state_0.x[0]*20,state_0.x[1]*20,state_1.x[0]*20,state_1.x[1]*20);
+				
+			}
+			else {
+				printf("aywaaaah\n");
+				b1=0;
+				k1--;
+			}
+		}
+		printf("k1=%d\n",k1);
+		if (k1!=0){
+			state_t state_1 = {
+				.x = {tx_i[i]+k1*d2x, ty_i[i]+k1*d2y}
+			};
+			while((b2) && (k2<5)){
+				//printf("%d\n",k2);
+				state_t state_2 = {
+        				.x = {tx_i[i]+k2*d1x, ty_i[i]+k2*d1y}
+				};
+			
+				if(optsystem_segment_on_obstacle (opttree->optsys, &state_1, &state_2, 100)==0){
+					k2++;
+					//if (k2<20)
+					//printf("(%lf,%lf),(%lf,%lf)\n",state_2.x[0]*20,state_2.x[1]*20,state_1.x[0]*20,state_1.x[1]*20);
+				}
+				else {
+					//printf("%d\n",k2);
+					b2=0;
+					k2--;
+				}
+			}
+		}
+		if (k1!=0){
+			if (j==1){
+				px[j]=tx_i[i]+k2*d1x;
+				py[j]=ty_i[i]+k2*d1y;
+				px[j+1]=tx_i[i]+k1*d2x;
+				py[j+1]=ty_i[i]+k1*d2y;
+				j=j+2;
+			} 
+			else {
+				px[j]=tx_i[i]+k2*d1x;
+				py[j]=ty_i[i]+k2*d1y;
+				px[j+1]=tx_i[i]+k1*d2x;
+				py[j+1]=ty_i[i]+k1*d2y;
+				
+
+				if ((px[j]-px[j-1])*(tx_i[i]-tx_i[i-1])>0){
+					j=j+2;
+				}
+				else {
+					px[j-1]=px[j];
+					px[j]=px[j+1];
+					py[j-1]=py[j];
+					py[j]=py[j+1];
+					j++;
+				}
+
+			}			
+		}
+		else {
+			px[j]=tx_i[i];
+			py[j]=ty_i[i];
+			j++;
+		}
+	}
+	px[j]=tx_i[nb_point-1];
+	py[j]=ty_i[nb_point-1];
+	nb_final=j;
+	
+
+	double px1[300];
+	double py1[300];
+	//double d1x,d1y,d2x,d2y;
+	//gboolean b1,b2;
+	px1[0]=px[nb_final];
+	py1[0]=py[nb_final];
+	j=1;
+	//int nb_final;
+	//int k1, k2;
+	for(i=nb_final-1;i>0;i--){
+		
+		d1x=(px[i-1]-px[i])/5;
+		d1y=(py[i-1]-py[i])/5;
+		d2x=(px[i+1]-px[i])/5;
+		d2y=(py[i+1]-py[i])/5;
+		
+		k2=2;
+		k1=1;
+		b1=1;
+		b2=1;
+		state_t state_0 = {
+        				.x = {px[i]+d1x, py[i]+d1y}
+    				};
+			
+		while((b1) && (k1<5)){
+			//printf("%d\n",k1);
+			
+			state_t state_1 = {
+				.x = {px[i]+k1*d2x, py[i]+k1*d2y}
+			};
+			
+			if (optsystem_segment_on_obstacle (opttree->optsys, &state_0, &state_1, 100) == 0){
+				k1++;
+				//printf("(%lf,%lf),(%lf,%lf)\n",state_0.x[0],state_0.x[1],state_1.x[0],state_1.x[1]);
+				
+			}
+			else {
+				printf("aywaaaah\n");
+				b1=0;
+				k1--;
+			}
+		}
+		if (k1!=0){
+			state_t state_1 = {
+				.x = {px[i]+k1*d2x, py[i]+k1*d2y}
+			};
+			while((b2) && (k2<5)){
+				state_t state_2 = {
+        				.x = {px[i]+k2*d1x, py[i]+k2*d1y}
+				};
+			
+				if(optsystem_segment_on_obstacle (opttree->optsys, &state_1, &state_2, 100)==0){
+					k2++;
+				}
+				else {
+					b2=0;
+					k2--;
+				}
+			}
+		}
+		
+		if (k1!=0){
+			if (j==1){
+				px1[j+1]=px[i]+k2*d1x;
+				py1[j+1]=py[i]+k2*d1y;
+				px1[j]=px[i]+k1*d2x;
+				py1[j]=py[i]+k1*d2y;
+				j=j+2;
+			} 
+			else {
+				px1[j+1]=px[i]+k2*d1x;
+				py1[j+1]=py[i]+k2*d1y;
+				px1[j]=px[i]+k1*d2x;
+				py1[j]=py[i]+k1*d2y;
+
+				if ((px1[j]-px1[j-1])*(px[i]-px[i+1])>0){
+					j=j+2;
+				}
+				else {
+					px1[j-1]=px1[j];
+					px1[j]=px1[j+1];
+					py1[j-1]=py1[j];
+					py1[j]=py1[j+1];
+					j++;
+				}
+
+			}			
+		}
+		else {
+			px1[j]=px[i];
+			py1[j]=py[i];
+			j++;
+		}
+	}
+	px1[j]=px[0];
+	py1[j]=py[0];
+	int nb_final1=j;
+		
+		
+			
+
+
+
+
+
+
 
 
 
@@ -901,14 +1123,24 @@ for(i=nb_point-1;i>1;i--){
 		printf("%d\n",k);
 */	
 		//le ,	
-	printf("zaaaaaab\n");
+	/*printf("zaaaaaab\n");
 	printf("%d\n",nb_point);
-	//k=nb_point-1;
-	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",tx2_i[k]*20,ty2_i[k]*20);
+	k=nb_point-1;
+	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",tx_i[k]*20,ty_i[k]*20);
 	while( k!=0 ){
 		printf("%d\n",k);
 		k--;
-   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",tx2_i[k]*20,ty2_i[k]*20);
+   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",tx_i[k]*20,ty_i[k]*20);
+	} 
+*/
+
+	printf("nb_final1=%d\n",nb_final1);
+	k=nb_final1;
+	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",px1[k]*20,py1[k]*20);
+	while( k!=0 ){
+		printf("%d\n",k);
+		k--;
+   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",px1[k]*20,py1[k]*20);
 	} 
 
 		
