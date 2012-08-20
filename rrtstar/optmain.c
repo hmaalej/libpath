@@ -52,8 +52,9 @@ int main (int argc, char *argv[]) {
     double y;
     char chaine[150]="";
     int i;
+    int k=20;
     // Setup the num_iterations
-    int num_iterations = 100000;
+    int num_iterations = 1000000;
     // 1. Create opttree structure
     opttree_t *opttree = opttree_create ();
     if (!opttree) {
@@ -65,17 +66,31 @@ int main (int argc, char *argv[]) {
     // 2.a. create the operating region
  int c1,c2,s1,s2;
     if ((atof(argv[1])>-10) && (atof(argv[1])<50) && (atof(argv[2])>30) && (atof(argv[2])<50) && (atof(argv[3])>-10) && (atof(argv[3])<50) && (atof(argv[4])>30) && (atof(argv[4])<50)) {
-	c1= 1;
-	c2= 2;
-	s1= 3;
-	s2= 1;
+	c1= 20/k;
+	c2= 40/k;
+	s1= 60/k;
+	s2= 20/k;
     }	
+    else  if ((atof(argv[1])>16) && (atof(argv[1])<30) && (atof(argv[2])>54) && (atof(argv[2])<66) && (atof(argv[3])>16) && (atof(argv[3])<30) && (atof(argv[4])>54) && (atof(argv[4])<66)) {
+	
+	c1= 23/k;
+	c2= 3;
+	s1= 14/k;
+	s2= 12/k;
+    }	
+    else if  ((atof(argv[1])>6) && (atof(argv[1])<16) && (atof(argv[2])>53) && (atof(argv[2])<60) && (atof(argv[3])>6) && (atof(argv[3])<16) && (atof(argv[4])>53) && (atof(argv[4])<60)) {
+	c1= 11/k;
+	c2= 56.5/k;
+	s1= 10/k;
+	s2= 7/k;
+    } 
     else {
 	c1= 0;
-	c2= 0;
-	s1= 18;
-	s2= 9;
-    }	
+	c2=0;
+	s1=360/k;
+	s2=180/k;
+    }
+	
 	region_2d_t operating_region = {
         .center = {c1,c2 },
         .size = {s1,s2 }
@@ -91,7 +106,7 @@ int main (int argc, char *argv[]) {
 	GEOSCoordSequence* cs;
 	GEOSGeometry* g;
 	GEOSGeometry* shell;
-	int k;
+	int k_;
 	int cpt_continent=1;
 
 /*while(cpt_continent<13){	
@@ -135,22 +150,22 @@ fgets(chaine, 101, f_obstacles);
 	fscanf(f_obstacles,"[ %lf, %lf ]",&x,&y);
 	
 	node = malloc (sizeof (state_t));
-  	node->x[0] = x/20;
-    	node->x[1] = y/20;
+  	node->x[0] = x/k;
+    	node->x[1] = y/k;
        	obstacle=g_slist_prepend(obstacle,node);
 
 	while(fscanf(f_obstacles,", [ %lf, %lf ]",&x,&y)!=0){		
 		node = malloc (sizeof (state_t));
-  		node->x[0] = x/20;
-    		node->x[1] = y/20;
+  		node->x[0] = x/k;
+    		node->x[1] = y/k;
        		obstacle=g_slist_prepend(obstacle,node);
 	}
 	cs= GEOSCoordSeq_create(g_slist_length (obstacle),2);
 	int j=0;
 	while(obstacle) {
 		state_t *point=(state_t *)(obstacle->data);
-		k=GEOSCoordSeq_setX(cs, j, point->x[0]);
-		k=GEOSCoordSeq_setY(cs, j, point->x[1]);
+		k_=GEOSCoordSeq_setX(cs, j, point->x[0]);
+		k_=GEOSCoordSeq_setY(cs, j, point->x[1]);
 		obstacle=g_slist_next(obstacle);
 		j++;
 	}
@@ -193,22 +208,22 @@ fgets(chaine, 139, f_obstacles);*/
 	fscanf(f_obstacles,"[ %lf, %lf ]",&x,&y);
 	
 	node = malloc (sizeof (state_t));
-  	node->x[0] = x/20;
-    	node->x[1] = y/20;
+  	node->x[0] = x/k;
+    	node->x[1] = y/k;
        	obstacle=g_slist_prepend(obstacle,node);
 	while(fscanf(f_obstacles,", [ %lf, %lf ]",&x,&y)!=0){
 		
 		node = malloc (sizeof (state_t));
-  		node->x[0] = x/20;
-    		node->x[1] = y/20;
+  		node->x[0] = x/k;
+    		node->x[1] = y/k;
        		obstacle=g_slist_prepend(obstacle,node);
 	}
 	cs= GEOSCoordSeq_create(g_slist_length (obstacle),2);
 	int j=0;
 	while(obstacle) {
 		state_t *point=(state_t *)(obstacle->data);
-		k=GEOSCoordSeq_setX(cs, j, point->x[0]);
-		k=GEOSCoordSeq_setY(cs, j, point->x[1]);
+		k_=GEOSCoordSeq_setX(cs, j, point->x[0]);
+		k_=GEOSCoordSeq_setY(cs, j, point->x[1]);
 		obstacle=g_slist_next(obstacle);
 		j++;
 	}
@@ -231,13 +246,13 @@ cpt_poly++;
 
     // 2.c create the root state
     state_t root_state = {
-        .x = {atof(argv[1])/20, atof(argv[2])/20}
+        .x = {atof(argv[1])/k, atof(argv[2])/k}
     };
     
 
     // 2.d. create the goal region
 	state_t arrival_state = {
-        .x = {atof(argv[3])/20, atof(argv[4])/20}
+        .x = {atof(argv[3])/k, atof(argv[4])/k}
     	};
 	//on sort du point de la mediteranée
 	if ((atof(argv[3])>27) && (atof(argv[3])<42) && (atof(argv[4])>40) && (atof(argv[4])<48)){
@@ -251,11 +266,11 @@ cpt_poly++;
 		root_state=arrival_state;
 		arrival_state=state_perm;
 	}
-	printf("departure:(%lf,%lf)\n",root_state.x[0]*20,root_state.x[1]*20);
-	printf("arrival:(%lf,%lf)\n",arrival_state.x[0]*20,arrival_state.x[1]*20);
+	printf("departure:(%lf,%lf)\n",root_state.x[0]*k,root_state.x[1]*k);
+	printf("arrival:(%lf,%lf)\n",arrival_state.x[0]*k,arrival_state.x[1]*k);
 	double d=optsystem_evaluate_distance (opttree->optsys, &root_state, &arrival_state);
 	int s;
-	if (d<1) {s=0.05;} else {s=0.2;}
+	if (d<20/k) {s=1/k;} else {s=4/k;}
 	region_2d_t goal_region = {
         	.center = {arrival_state.x[0],arrival_state.x[1]},
         	.size = {s,s}
@@ -345,40 +360,45 @@ if (optsystem_segment_on_obstacle (opttree->optsys, &root_state, &goal_region.ce
 	 fclose(f_ptr);
 fprintf(planisphere,"{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
 fprintf(planisphere,"{\"type\": \"Feature\", \"id\": 0, \"properties\": {}, \"geometry\": { \"type\": \"LineString\", \"coordinates\": [");
-fprintf (planisphere,"[%3.5lf, %3.5lf,0]",root_state.x[0]*20,root_state.x[1]*20);
-fprintf (planisphere,",[%3.5lf, %3.5lf,0]",goal_region.center[0]*20,goal_region.center[1]*20);	
+fprintf (planisphere,"[%3.5lf, %3.5lf,0]",root_state.x[0]*k,root_state.x[1]*k);
+fprintf (planisphere,",[%3.5lf, %3.5lf,0]",goal_region.center[0]*k,goal_region.center[1]*k);	
 }     
-else {         
-    for ( i = 0; i < num_iterations; i++) {
-	
-        opttree_iteration (opttree);
-          
-        if ( (i != 0 ) && (i != 100 ) && (i%100 == 0)  ) {
+else {   
+    gboolean b_aret=FALSE; 
+    i=0; 
+    double ts_find=300;  
+    for(i=0;i<num_iterations;i++){  
+	if (!b_aret)
+        opttree_iteration (opttree); 
+        if ( (i != 0 ) && (i%100 == 0)  ) {
 	    if ((opttree->lower_bound<99999) && (b==FALSE)){
 		b=TRUE;
 		
 		/*x=i/1000;
 		num_iterations=i+(i*40*log(x))/(x*x);*/
-		if ((opttree->lower_bound)*20<50)
+		if ((opttree->lower_bound)*k<50)
 		num_iterations=i+502;
-		if (((opttree->lower_bound)*20>=50) && ((opttree->lower_bound)*20<200))
+		if (((opttree->lower_bound)*k>=50) && ((opttree->lower_bound)*k<200))
 		num_iterations=i+1002;
-		if (((opttree->lower_bound)*20>=200)&&((opttree->lower_bound)*20<400) )
+		if (((opttree->lower_bound)*k>=200)&&((opttree->lower_bound)*k<400) )
 		num_iterations=i+2002;
-		if (((opttree->lower_bound)*20>=400))
+		if (((opttree->lower_bound)*k>=400))
 		num_iterations=i+3002;
 		//cas particulier: 
 			//il y'a deja asez d'iteration
 		if (i>50000)
 		num_iterations=i+502;
+		ts_find=(ts_now() - time_start)/1000000.0;
 			//il y'a trés peu d'iteration
-		if (i<3000)
-		num_iterations=i+1002;
+		//if (i<3000)
+		//num_iterations=i+1002;
 		//num_iterations=i+200;
 	    }
             printf ("Time: %5.5lf, Cost: %5.5lf\n", 
-                    ((double)(ts_now() - time_start))/1000000.0, (opttree->lower_bound)*20); 
+                    ((double)(ts_now() - time_start))/1000000.0, (opttree->lower_bound)*k);   
         }
+	if ((double)(ts_now() - time_start)/1000000.0-ts_find>10)
+	    b_aret=TRUE;
     }
 	printf("%d\n",i);
     printf("\n\n");
@@ -517,7 +537,7 @@ else {
 		tx_i[0]=tx[nb];
 		ty_i[0]=ty[nb];
 		//indice tableau resultat
-		k = 1;
+		k_ = 1;
 		i=nb;
 		while (i != 0) {
 			state_t state_a = {
@@ -530,9 +550,9 @@ else {
         				.x = {tx[j], ty[j]}
     				};
 				if(optsystem_segment_on_obstacle (opttree->optsys, &state_a, &state_b, 100)==0){
-					tx_i[k]=tx[j];
-					ty_i[k]=ty[j];
-					k++;
+					tx_i[k_]=tx[j];
+					ty_i[k_]=ty[j];
+					k_++;
 					i=j;
 					b=1;
 				}
@@ -542,8 +562,8 @@ else {
 			printf("%d\n",i);
 		}
 		
-		int nb_point=k;
-		k--; 
+		int nb_point=k_;
+		k_--; 
 		printf("nb_point=%d\n",nb_point);
 		/*
 		//parcours de bas en haut
@@ -1135,12 +1155,12 @@ for(i=nb_point-1;i>1;i--){
 */
 
 	printf("nb_final1=%d\n",nb_final1);
-	k=nb_final1;
-	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",px1[k]*20,py1[k]*20);
-	while( k!=0 ){
-		printf("%d\n",k);
-		k--;
-   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",px1[k]*20,py1[k]*20);
+	k_=nb_final1;
+	fprintf (planisphere,"[%3.5lf, %3.5lf,0]",px1[k_]*k,py1[k_]*k);
+	while( k_!=0 ){
+		printf("%d\n",k_);
+		k_--;
+   		fprintf (planisphere,",[%3.5lf, %3.5lf,0]",px1[k_]*k,py1[k_]*k);
 	} 
 
 		
@@ -1152,7 +1172,7 @@ for(i=nb_point-1;i>1;i--){
 
 	fclose(planisphere);
 
-	printf("distance: %lf\n",d);
+	//printf("distance: %lf\n",d);
     // 5. Destroy the opttree structure
     	opttree_destroy (opttree);
 	
