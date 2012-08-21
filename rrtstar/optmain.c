@@ -1,6 +1,26 @@
 
 #define PUBLISH_NODES_EDGES 0
 
+#define MED_CENTER_X 20
+#define MED_CENTER_Y 40
+#define MED_SIZE_X 60
+#define MED_SIZE_Y 20
+
+#define BALT_CENTER_X 23
+#define BALT_CENTER_Y 60
+#define BALT_SIZE_X 14
+#define BALT_SIZE_Y 12
+
+#define NORTH_CENTER_X 11
+#define NORTH_CENTER_Y 56.5
+#define NORTH_SIZE_X 10
+#define NORTH_SIZE_Y 7
+
+#define WORLD_CENTER_X 0
+#define WORLD_CENTER_Y 0
+#define WORLD_SIZE_X 360
+#define WORLD_SIZE_Y 180
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -9,6 +29,16 @@
 
 #include "opttree.h"
 #include "geos_c.h"
+
+typedef enum
+{
+  BLACK_SEA,
+  MEDETERANIAN,
+  BALTIC_SEA,
+  NORTH_SEA,
+  ORDINARY
+}
+location;
 
 // Returns current time 
 int64_t
@@ -58,6 +88,9 @@ log_and_exit1(const char *fmt, ...) {
 
 FILE* chemin_sans_corespondance(double x_root,double y_root,double x_arrival,double y_arrival);
 int route_final (double x_root,double y_root,double x_arrival,double y_arrival);
+location locat_point(double x,double y);
+opttree_t* create_environnement(double x_root,double y_root,double x_arrival,double y_arrival,int k);
+
 int main(int argc, char *argv[]) {
 	int64_t t = ts_now();
 	double x_root=atof(argv[1]);
@@ -69,6 +102,24 @@ int main(int argc, char *argv[]) {
 	printf("%5.5lf\n",((double)(ts_now() - t))/1000000.0);
 	return 0;
 }
+
+location locat_point(double x,double y){
+	
+	location loc=ORDINARY;
+	if ((x>27) && (x<42) && (y>40) && (y<48)){
+		loc=BLACK_SEA;
+	}
+	else if (((x>-8) && (x<27) && (y>30) && (y<46)) || ((x>27) && (x<37) && (y>30) && (y<39))){
+		 loc=MEDETERANIAN;
+	 }
+	 else if ((x>16) && (x<30) && (y>54) && (y<66)){
+		 loc=BALTIC_SEA;
+	 }
+	 else if ((x>6) && (x<16) && (y>53) && (y<60)) {
+		 loc=NORTH_SEA;
+	 }
+	 return loc;
+ }
 
 
 int route_final (double x_root,double y_root,double x_arrival,double y_arrival) {
@@ -92,57 +143,46 @@ int route_final (double x_root,double y_root,double x_arrival,double y_arrival) 
 	return 1;
 }
 
-
-
-
-FILE* chemin_sans_corespondance(double x_root,double y_root,double x_arrival,double y_arrival) {
-
-	
+opttree_t* create_environnement(double x_root,double y_root,double x_arrival,double y_arrival,int k){
 	FILE *f_obstacles = fopen("obstacles.txt","r");
     	double x;
 	double y;
 	char chaine[150]="";
 	int i;
-	int k=20;
-    	// Setup the maximum number of iterations
-	int num_iterations = 1000000;
-    	// 1. Create opttree structure
+	
 	opttree_t *opttree = opttree_create ();
 	if (!opttree) {
 	        printf ("Memory allocation error\n");
 	        exit (1);
-	}
-    
-    	// 2. Setup the environment
-    	double dist_x = x_root-x_arrival;
-    	double dist_y = y_root-y_arrival;
-	double dist = sqrt (dist_x * dist_x + dist_y * dist_y);
-	if (dist<20)
-	k=1;
+	}    	
  	int c1,c2,s1,s2;
-    	if ((x_root>-10) && (x_root<50) && (y_root>30) && (y_root<50) && (x_arrival>-10) && (x_arrival<50) && (y_arrival>30) && (y_arrival<50)) {
-		c1= 20/k;
-		c2= 40/k;
-		s1= 60/k;
-		s2= 20/k;
+ 	printf("%lf,%lf\n",x_arrival,y_arrival);
+ 	location loc_root=locat_point(x_root,y_root);
+	location loc_arrival=locat_point(x_arrival,y_arrival);
+	//1. Setup the operating_region according to points location 
+	if (((loc_root==MEDETERANIAN) || (loc_root==BLACK_SEA)) && ((loc_arrival==MEDETERANIAN)|| (loc_arrival==BLACK_SEA))) {
+		c1= MED_CENTER_X/k;
+		c2= MED_CENTER_Y/k;
+		s1= MED_SIZE_X/k;
+		s2= MED_SIZE_Y/k;
+	}	
+    	else if ((loc_root==BALTIC_SEA) && (loc_arrival==BALTIC_SEA)) {			
+		c1= BALT_CENTER_X/k;
+		c2= BALT_CENTER_Y/k;
+		s1= BALT_SIZE_X/k;
+		s2= BALT_SIZE_Y/k;
     	}	
-    	else  if ((x_root>16) && (x_root<30) && (y_root>54) && (y_root<66) && (x_arrival>16) && (x_arrival<30) && (y_arrival>54) && (y_arrival<66)) {			
-		c1= 23/k;
-		c2= 60/k;
-		s1= 14/k;
-		s2= 12/k;
-    	}	
-    	else if  ((x_root>6) && (x_root<16) && (y_root>53) && (y_root<60) && (x_arrival>6) && (x_arrival<16) && (y_arrival>53) && (y_arrival<60)) {
-		c1= 11/k;
-		c2= 56.5/k;
-		s1= 10/k;
-		s2= 7/k;
+    	else if ((loc_root==NORTH_SEA) && (loc_arrival==NORTH_SEA)) {
+		c1= NORTH_CENTER_X/k;
+		c2= NORTH_CENTER_Y/k;
+		s1= NORTH_SIZE_X/k;
+		s2= NORTH_SIZE_Y/k;
     	} 
     	else {
-		c1= 0;
-		c2=0;
-		s1=360/k;
-		s2=180/k;
+		c1= WORLD_CENTER_X;
+		c2=WORLD_CENTER_Y;
+		s1=WORLD_SIZE_X/k;
+		s2=WORLD_SIZE_Y/k;
     	}
 	
 	region_2d_t operating_region = {
@@ -150,7 +190,7 @@ FILE* chemin_sans_corespondance(double x_root,double y_root,double x_arrival,dou
         	.size = {s1,s2 }
     	};
     	optsystem_update_operating_region (opttree->optsys, &operating_region);
-    	//create obstacles
+    	// 2.create obstacles
 	initGEOS(notice1, log_and_exit1);
     	GSList *obstacle_list = NULL;
     	GSList *obstacle = NULL;
@@ -175,7 +215,7 @@ FILE* chemin_sans_corespondance(double x_root,double y_root,double x_arrival,dou
   	node->x[0] = x/k;
     	node->x[1] = y/k;
        	obstacle=g_slist_prepend(obstacle,node);
-	while(fscanf(f_obstacles,", [ %lf, %lf ]",&x,&y)!=0){		
+	while (fscanf(f_obstacles,", [ %lf, %lf ]",&x,&y)!=0){		
 		node = malloc (sizeof (state_t));
   		node->x[0] = x/k;
     		node->x[1] = y/k;
@@ -255,24 +295,24 @@ fgets(chaine, 139, f_obstacles);*/
     	fclose(f_obstacles);
    	printf("c fini \n");
     	optsystem_update_obstacles (opttree->optsys, obstacle_list);
-	// 2.c create the root state
+	// 3. create the root state
     	state_t root_state = {
         	.x = {x_root/k, y_root/k}
     	};
     
 
-    	// 2.d. create the goal region
+    	// 4. create the goal region
 	state_t arrival_state = {
         	.x = {x_arrival/k, y_arrival/k}
     	};
 	//on sort du point de la mediteranée
-	if ((x_arrival>27) && (x_arrival<42) && (y_arrival>40) && (y_arrival<48)){
+	if (loc_arrival==BLACK_SEA){
 		state_t state_perm=root_state;
 		root_state=arrival_state;
 		arrival_state=state_perm;
 	}
 	
-	else if ((x_arrival>-10) && (x_arrival<50) && (y_arrival>30) && (y_arrival<50) && ((x_root<27) || (x_root>42) || (y_root<40) || (y_root>48))){
+	else if (loc_root==MEDETERANIAN){
 		state_t state_perm=root_state;
 		root_state=arrival_state;
 		arrival_state=state_perm;
@@ -289,8 +329,37 @@ fgets(chaine, 139, f_obstacles);*/
     	opttree_set_root_state (opttree, &root_state);
     	optsystem_update_goal_region (opttree->optsys, &goal_region);
 	finishGEOS();
+	return opttree;
+}
+FILE* chemin_sans_corespondance(double x_root,double y_root,double x_arrival,double y_arrival) {
+
+	double x,y;
+	int k_;
+	int i;
+	int k=1;
+	int j;
+    	// Setup the maximum number of iterations
+	int num_iterations = 1000000;
+    	// Setup k: 
+		//if the operating region is [-180,180],[-90,90], we compresse it 
+		
+	location loc_root=locat_point(x_root,y_root);
+	location loc_arrival=locat_point(x_arrival,y_arrival);
+	if (((loc_root==ORDINARY) || (loc_arrival==ORDINARY)) || (loc_root!=loc_arrival)){
+		k=20;
+	}
+	// 1. Create opttree structure
+	opttree_t *opttree = opttree_create ();
+	if (!opttree) {
+	        printf ("Memory allocation error\n");
+	        exit (1);
+	}
+	// 2. setup environnement
+	opttree=create_environnement(x_root,y_root,x_arrival,y_arrival,k);
 
 	// 3. Run opttree in iterations
+	state_t root_state=*((opttree->optsys)->initial_state);
+	region_2d_t goal_region=(opttree->optsys)->goal_region	;
     	int64_t time_start = ts_now(); 
     	gboolean b=FALSE;
 	FILE* f_ptr = fopen ("optpath.txt", "w"); 
@@ -321,6 +390,8 @@ fgets(chaine, 139, f_obstacles);*/
 					num_iterations=i+502;
 					ts_find=(ts_now() - time_start)/1000000.0;
 				}
+				printf ("Time: %5.5lf, Cost: %5.5lf\n", 
+                    ((double)(ts_now() - time_start))/1000000.0, (opttree->lower_bound)*k);  
         	    	}
 			if ((double)(ts_now() - time_start)/1000000.0-ts_find>10)
 		    	num_iterations=i+1;
@@ -347,7 +418,7 @@ fgets(chaine, 139, f_obstacles);*/
 					dist_x=root_state.x[0]-state_this->x[0];
 					dist_y=root_state.x[1]-state_this->x[1];
 					dist=sqrt(dist_x*dist_x+dist_y*dist_y);
-					if ((optsystem_segment_on_obstacle (opttree->optsys, root_state, state_this, 100)==0) && (dist<node_curr->distance_from_root)){
+					if ((optsystem_segment_on_obstacle (opttree->optsys, &root_state, state_this, 100)==0) && (dist<node_curr->distance_from_root)){
 						fclose(f_ptr); 				
 						f_ptr = fopen ("optpath.txt", "w");
 					} 				
@@ -378,8 +449,8 @@ fgets(chaine, 139, f_obstacles);*/
 		double *tx_i;
 		double *ty_i;
 		int i=0;
-		tx = (double *) malloc (g_slist_length(optstates_list)*2*sizeof(double));
-		ty = (double *) malloc (g_slist_length(optstates_list)*2*sizeof(double));
+		tx = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
+		ty = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
 		f_ptr = fopen ("optpath.txt", "r");
 		tx[0]=root_state.x[0];
 		ty[0]=root_state.x[1];
@@ -393,10 +464,14 @@ fgets(chaine, 139, f_obstacles);*/
 			i++;
     	        	fscanf(f_ptr,"\n");	
 		} 
+		i++;
+		//pour depasser la limite de goal_region
+		tx[i]=goal_region.center[0];
+		ty[i]=goal_region.center[1];
 		//opt0	
 		int nb=i;
-		tx_i = (double *) malloc (g_slist_length(optstates_list)*2*sizeof(double));
-		ty_i = (double *) malloc (g_slist_length(optstates_list)*2*sizeof(double));
+		tx_i = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
+		ty_i = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
 		tx_i[0]=tx[nb];
 		ty_i[0]=ty[nb];
 		//indice tableau resultat
@@ -486,8 +561,8 @@ fgets(chaine, 139, f_obstacles);*/
 	
 		double *px;
 		double *py;
-		px = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
-		py = (double *) malloc (g_slist_length(optstates_list)*4*sizeof(double));
+		px = (double *) malloc (g_slist_length(optstates_list)*8*sizeof(double));
+		py = (double *) malloc (g_slist_length(optstates_list)*8*sizeof(double));
 		double d1x,d1y,d2x,d2y;
 		gboolean b1,b2;
 		px[0]=tx_i[0];
@@ -574,8 +649,8 @@ fgets(chaine, 139, f_obstacles);*/
 		//opt4
 		double *px1;
 		double *py1;
-		px1 = (double *) malloc (g_slist_length(optstates_list)*8*sizeof(double));
-		py1 = (double *) malloc (g_slist_length(optstates_list)*8*sizeof(double));
+		px1 = (double *) malloc (g_slist_length(optstates_list)*16*sizeof(double));
+		py1 = (double *) malloc (g_slist_length(optstates_list)*16*sizeof(double));
 		px1[0]=px[nb_final];
 		py1[0]=py[nb_final];
 		j=1;	
@@ -660,6 +735,7 @@ fgets(chaine, 139, f_obstacles);*/
 			k_--;
    			fprintf (f_ptr, "%3.5lf %3.5lf\n",px1[k_]*k,py1[k_]*k);
 		} 
+		
 		// 5. Destroy the opttree structure
     		opttree_destroy (opttree);
 		fclose(f_ptr);
