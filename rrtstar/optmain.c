@@ -8,38 +8,9 @@
  * Program to compute shortest ship trajectories using the implemantion of rrtstar algorithm done by Sertak Karaman
  *
  */
-#define PUBLISH_NODES_EDGES 0
 
-#define MED_CENTER_X 20
-#define MED_CENTER_Y 40
-#define MED_SIZE_X 60
-#define MED_SIZE_Y 20
 
-#define BALT_CENTER_X 23
-#define BALT_CENTER_Y 60
-#define BALT_SIZE_X 14
-#define BALT_SIZE_Y 12
 
-#define NORTH_CENTER_X 11
-#define NORTH_CENTER_Y 56.5
-#define NORTH_SIZE_X 10
-#define NORTH_SIZE_Y 7
-
-#define WORLD_CENTER_X 0
-#define WORLD_CENTER_Y 0
-#define WORLD_SIZE_X 360
-#define WORLD_SIZE_Y 180
-
-#define MIN_DISTANCE 20
-#define SIZE_CLOSE_POINT 1
-#define SIZE_FAR_POINT 4
-#define MAX_ITERATION 1000000
-#define COMPRESSION_FACTOR 20
-
-#define OBSTACLES "obstacles.geojson"
-#define THE_PATH "THE_path.txt"
-#define OPTPATH "optpath.txt"
-#define ROUTE "planisphere.geojson"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,6 +18,7 @@
 #include <glib.h>
 #include <sys/time.h>
 
+#include "defines.h"
 #include "opttree.h"
 #include "geos_c.h"
 #include "/usr/include/json/json.h"
@@ -132,10 +104,10 @@ int main(int argc, char *argv[])
 	double y_arrival = atof(argv[4]);
 	int route;
 	route = final_path(x_root, y_root, x_arrival, y_arrival);
-	printf("%5.5lf\n", ((double) (ts_now() - t)) / 1000000.0);
+	time_see(((double) (ts_now() - t)) / 1000000.0);
 	return 1;
     } else {
-	printf("NOT ENOUTH PARAMETERS\n");
+	error("NOT ENOUTH PARAMETERS\n");
 	return 0;
     }
 }
@@ -373,11 +345,10 @@ opttree_t *create_environnement(double x_root, double y_root,
 
     opttree_t *opttree = opttree_create();
     if (!opttree) {
-	printf("Memory allocation error\n");
+	error("Memory allocation error\n");
 	exit(1);
     }
     int c1, c2, s1, s2;
-    printf("%lf,%lf\n", x_arrival, y_arrival);
     location loc_root = locat_point(x_root, y_root);
     location loc_arrival = locat_point(x_arrival, y_arrival);
     //1. Setup the operating_region according to points location 
@@ -414,109 +385,6 @@ opttree_t *create_environnement(double x_root, double y_root,
     };
     optsystem_update_operating_region(opttree->optsys, &operating_region);
     // 2.create obstacles
-   /* initGEOS(notice1, log_and_exit1);
-    GSList *obstacle_list = NULL;
-    GSList *obstacle = NULL;
-    state_t *node;
-    GEOSCoordSequence *cs;
-    GEOSGeometry *g;
-    GEOSGeometry *shell;
-    int k_;
-    int j = 0;
-    int cpt_continent = 1;
-    fgets(str, 2, f_obstacles);
-    fscanf(f_obstacles, "\n");
-    fgets(str, 29, f_obstacles);
-    fscanf(f_obstacles, "\n");
-    //fscanf(f_obstacles,"\n");
-    fgets(str, 14, f_obstacles);
-    fscanf(f_obstacles, "\n");
-    //fgets(str, 124, f_obstacles);
-    fgets(str, 101, f_obstacles);
-    fscanf(f_obstacles, "[ %lf, %lf ]", &x, &y);
-    node = malloc(sizeof(state_t));
-    node->x[0] = x / k;
-    node->x[1] = y / k;
-    obstacle = g_slist_prepend(obstacle, node);
-    while (fscanf(f_obstacles, ", [ %lf, %lf ]", &x, &y) != 0) {
-	node = malloc(sizeof(state_t));
-	node->x[0] = x / k;
-	node->x[1] = y / k;
-	obstacle = g_slist_prepend(obstacle, node);
-    }
-    cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
-
-    while (obstacle) {
-	state_t *point = (state_t *) (obstacle->data);
-	k_ = GEOSCoordSeq_setX(cs, j, point->x[0]);
-	k_ = GEOSCoordSeq_setY(cs, j, point->x[1]);
-	obstacle = g_slist_next(obstacle);
-	j++;
-    }
-    shell = GEOSGeom_createLinearRing(cs);
-    g = GEOSGeom_createPolygon(shell, NULL, 0);
-    obstacle_list = g_slist_prepend(obstacle_list, g);
-    fgets(str, 9, f_obstacles);
-    fscanf(f_obstacles, "\n");
-    int cpt_poly = 2;
-    while (fgetc(f_obstacles) == ',') {
-	obstacle = NULL;
-	fscanf(f_obstacles, "\n");
-/*if ((cpt_poly<10))
-fgets(str, 124, f_obstacles);
-if ((cpt_poly==10))
-fgets(str, 126, f_obstacles);
-if ((cpt_poly<100) && (cpt_poly>10))
-fgets(str, 127, f_obstacles);
-if ((cpt_poly==100))
-fgets(str, 129, f_obstacles);
-if ((cpt_poly<1000) && (cpt_poly>100))
-fgets(str, 130, f_obstacles);
-if ((cpt_poly==1000))
-fgets(str, 132, f_obstacles);
-if ((cpt_poly<10000) && (cpt_poly>1000))
-fgets(str, 133, f_obstacles);
-if ((cpt_poly==10000))
-fgets(str, 135, f_obstacles);
-if ((cpt_poly<100000) && (cpt_poly>10000))
-fgets(str, 136, f_obstacles);
-if ((cpt_poly==100000))
-fgets(str, 138, f_obstacles);
-if ((cpt_poly<1000000) && (cpt_poly>100000))
-fgets(str, 139, f_obstacles);*/
-	/*fgets(str, 101, f_obstacles);
-	fscanf(f_obstacles, "[ %lf, %lf ]", &x, &y);
-	node = malloc(sizeof(state_t));
-	node->x[0] = x / k;
-	node->x[1] = y / k;
-	obstacle = g_slist_prepend(obstacle, node);
-	while (fscanf(f_obstacles, ", [ %lf, %lf ]", &x, &y) != 0) {
-	    node = malloc(sizeof(state_t));
-	    node->x[0] = x / k;
-	    node->x[1] = y / k;
-	    obstacle = g_slist_prepend(obstacle, node);
-	}
-	cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
-	int j = 0;
-	while (obstacle) {
-	    state_t *point = (state_t *) (obstacle->data);
-	    k_ = GEOSCoordSeq_setX(cs, j, point->x[0]);
-	    k_ = GEOSCoordSeq_setY(cs, j, point->x[1]);
-	    obstacle = g_slist_next(obstacle);
-	    j++;
-	}
-	shell = GEOSGeom_createLinearRing(cs);
-	g = GEOSGeom_createPolygon(shell, NULL, 0);
-	obstacle_list = g_slist_prepend(obstacle_list, g);
-	fgets(str, 9, f_obstacles);
-	fscanf(f_obstacles, "\n");
-	printf("%d\n", cpt_poly);
-	cpt_poly++;
-    }
-
-    fclose(f_obstacles);
-    optsystem_update_obstacles(opttree->optsys, obstacle_list);*/
-    
     initGEOS(notice1, log_and_exit1);
     state_t *node;
     GEOSCoordSequence *cs;
@@ -537,11 +405,8 @@ fgets(str, 139, f_obstacles);*/
 	strcat(str_, str1);
 	fscanf(f, "\n");
     }
-     printf("str=%s\n", str_);
     obj = json_tokener_parse(str_);
-      printf("new_obj.to_string()=%s\n", json_object_to_json_string(obj));
     json_object *features = json_object_object_get(obj, "features");
-        printf("zaaaaaaaaab\n"); 
     GSList *obstacle_list = NULL;
 	
     j = 0;
@@ -568,24 +433,21 @@ fgets(str, 139, f_obstacles);*/
 	    node->x[0] = atof(str_x)/k;
 	    node->x[1] = atof(str_y)/k;
 	    obstacle = g_slist_prepend(obstacle, node);
-	    printf("%s,%s ", str_x, str_y);
-	    printf("\n");
 	}
 	cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
-
+	int jj=0;
 	while (obstacle) {
 	    state_t *point = (state_t *) (obstacle->data);
-	    k_ = GEOSCoordSeq_setX(cs, j, point->x[0]);
-	    k_ = GEOSCoordSeq_setY(cs, j, point->x[1]);
+	    k_ = GEOSCoordSeq_setX(cs, jj, point->x[0]);
+	    k_ = GEOSCoordSeq_setY(cs, jj, point->x[1]);
 	    obstacle = g_slist_next(obstacle);
-	    j++;
+	    jj++;
 	}
 	shell = GEOSGeom_createLinearRing(cs);
 	g = GEOSGeom_createPolygon(shell, NULL, 0);
 	obstacle_list = g_slist_prepend(obstacle_list, g);
-	printf("\n");
+
     }
-    printf("cpt= %d\n",cpt);
      optsystem_update_obstacles(opttree->optsys, obstacle_list);
     // 3. create the root state and the goal region
     state_t root_state = {
@@ -617,9 +479,9 @@ fgets(str, 139, f_obstacles);*/
 	root_state = arrival_state;
 	arrival_state = state_perm;
     }
-    printf("departure:(%lf,%lf)\n", root_state.x[0] * k,
+   point_see(root_state.x[0] * k,
 	   root_state.x[1] * k);
-    printf("arrival:(%lf,%lf)\n", arrival_state.x[0] * k,
+   point_see( arrival_state.x[0] * k,
 	   arrival_state.x[1] * k);
     double d = optsystem_evaluate_distance(opttree->optsys, &root_state,
 					   &arrival_state);
@@ -673,7 +535,7 @@ FILE *path(double x_root, double y_root, double x_arrival,
     // 1. Create opttree structure
     opttree_t *opttree = opttree_create();
     if (!opttree) {
-	printf("Memory allocation error\n");
+	error("Memory allocation error\n");
 	exit(1);
     }
     // 2. setup environnement
@@ -721,8 +583,7 @@ FILE *path(double x_root, double y_root, double x_arrival,
 			num_iterations = i + 502;
 		    ts_find = (ts_now() - time_start) / 1000000.0;
 		}
-		printf("Time: %5.5lf, Cost: %5.5lf\n",
-		       ((double) (ts_now() -
+		time_cost( ((double) (ts_now() -
 				  time_start)) / 1000000.0,
 		       (opttree->lower_bound) * k);
 	    }
@@ -730,10 +591,12 @@ FILE *path(double x_root, double y_root, double x_arrival,
 		ts_find > 10)
 		num_iterations = i + 1;
 	}
-	printf("number of iterations: %d\n", i);
-	printf("\n\n");
+	warning(i);
 	GSList *optstates_list = NULL;
 	node_t *node_curr = opttree->lower_bound_node;
+	if (node_curr==NULL) {
+		error("PATH not found");
+	}
 	while (node_curr) {
 	    optstates_list = g_slist_prepend(optstates_list, node_curr);
 	    node_curr = node_curr->parent;
@@ -875,7 +738,6 @@ FILE *correcting_path(opttree_t * opttree, GSList * optstates_list,
 
 	    j++;
 	}
-	printf("%d\n", i);
     }
 
     int nb_nodes1 = k_;
@@ -959,7 +821,6 @@ FILE *correcting_path(opttree_t * opttree, GSList * optstates_list,
     int k1, k2;
 
     for (i = 1; i < nb_nodes1 - 1; i++) {
-	printf("i=%d\n", i);
 	d1x = (tx_i[i - 1] - tx_i[i]) / 5;
 	d1y = (ty_i[i - 1] - ty_i[i]) / 5;
 	d2x = (tx_i[i + 1] - tx_i[i]) / 5;
