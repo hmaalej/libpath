@@ -15,6 +15,7 @@ CFLAGS_GLIB  := `pkg-config --cflags glib-2.0 gmodule-2.0`
 LDFLAGS_GLIB := `pkg-config --libs glib-2.0 gmodule-2.0 gthread-2.0 gobject-2.0`
 
 LDFLAGS_GEOS := -lgeos_c 
+LDFLAGS_JSON := -ljson
 
 %.o: %.c %.h
 	@echo "    [$@]"
@@ -24,7 +25,7 @@ LDFLAGS_GEOS := -lgeos_c
 CFLAGS = $(CFLAGS_STD) $(CFLAGS_GLIB) $(-I//usr/local/include)
 
 
-LDFLAGS = $(LDFLAGS_STD) $(LDFLAGS_GLIB) $(LDFLAGS_GEOS)
+LDFLAGS = $(LDFLAGS_STD) $(LDFLAGS_GLIB) $(LDFLAGS_GEOS) $(LDFLAGS_JSON)
 
 
 OPTTREE_OBJS =  opttree.o \
