@@ -17,6 +17,7 @@
 #include <math.h>
 #include <glib.h>
 #include <sys/time.h>
+#include <unistd.h> 
 
 #include "defines.h"
 #include "opttree.h"
@@ -63,21 +64,21 @@ void log_and_exit1(const char *fmt, ...);
 
 
 FILE *path(double x_root, double y_root, double x_arrival,
-	   double y_arrival);
+	   double y_arrival,char* obstacle);
 
 
 int final_path(double x_root, double y_root, double x_arrival,
-	       double y_arrival);
+	       double y_arrival,char* obstacles);
 
 
 location locat_point(double x, double y);
 
 
 opttree_t *create_environnement(double x_root, double y_root,
-				double x_arrival, double y_arrival, int k);
+				double x_arrival, double y_arrival,char* obstacle, int k);
 
 
-FILE *dividing_path(double x1, double y1, double x2, double y2,
+FILE *dividing_path(double x1, double y1, double x2, double y2,char* obstacle,
 		    location loc);
 
 
@@ -97,18 +98,78 @@ FILE *correcting_path(opttree_t * opttree, GSList * optstates_list,
 int main(int argc, char *argv[])
 {
     int64_t t = ts_now();
+    char* obstacle;
+    obstacle=malloc(50*sizeof(char));
+    obstacle=OBSTACLES;
+    /*
     if (argc == 5) {
 	double x_root = atof(argv[1]);
 	double y_root = atof(argv[2]);
 	double x_arrival = atof(argv[3]);
 	double y_arrival = atof(argv[4]);
 	int route;
-	route = final_path(x_root, y_root, x_arrival, y_arrival);
+	route = final_path(x_root, y_root, x_arrival, y_arrival,obstacle);
 	time_see(((double) (ts_now() - t)) / 1000000.0);
 	return 1;
     } else {
 	error("NOT ENOUTH PARAMETERS\n");
 	return 0;
+    }*/
+    double x_root;
+	double y_root;
+	double x_arrival;
+	double y_arrival;
+    int c;
+    int cpt=0;
+    int digit_optind = 0;
+    int aopt = 0, bopt = 0;
+    char *copt = 0, *dopt = 0;
+     while ( (c = getopt(argc, argv, "x:y:a:b:o:n")) != -1) {
+        int this_option_optind = optind ? optind : 1;
+        switch (c) {
+     
+        case 'x':
+            aopt = 1;
+            x_root = atof(optarg);
+            cpt++;
+            break;
+        case 'y':
+            y_root = atof(optarg);
+            bopt = 1;
+            cpt++;
+            break;
+        case 'a':
+            copt = 1;
+            x_arrival = atof(optarg);
+            cpt++;
+            break;
+        case 'b':
+            dopt = optarg;
+            y_arrival = atof(optarg);
+            cpt++;
+            break;
+        case 'o':
+	    printf ("option obs:%s\n",optarg);
+            dopt = optarg;
+            obstacle = optarg;
+            break;
+        }
+    }
+    if (optind < argc) {
+        printf ("non-option ARGV-elements: ");
+        while (optind < argc)
+            printf ("%s ", argv[optind++]);
+        printf ("\n");
+    }
+    if(cpt==4){
+    int route;
+	route = final_path(x_root, y_root, x_arrival, y_arrival,obstacle);
+	time_see(((double) (ts_now() - t)) / 1000000.0);
+	return 1;
+    }
+    else{
+	    error("NOT ENOUTH PARAMETERS\n");
+	    return 0;
     }
 }
 
@@ -176,7 +237,7 @@ location locat_point(double x, double y)
  * \param loc location of the unordinary point
  * \return f_ptr a file containing the nodes that constitute the path
  */
-FILE *dividing_path(double x1, double y1, double x2, double y2,
+FILE *dividing_path(double x1, double y1, double x2, double y2,char* obstacle,
 		    location loc)
 {
     FILE *f_ptr = fopen(THE_PATH, "w");
@@ -206,14 +267,14 @@ FILE *dividing_path(double x1, double y1, double x2, double y2,
 	break;
     }
 
-    FILE *f_ptr1 = path(x1, y1, x_rac1, y_rac1);
+    FILE *f_ptr1 = path(x1, y1, x_rac1, y_rac1, obstacle);
     while (!feof(f_ptr1)) {
 	double x, y;
 	fscanf(f_ptr1, "%lf %lf", &x, &y);
 	fprintf(f_ptr, "%lf %lf\n", x, y);
 	fscanf(f_ptr1, "\n");
     }
-    FILE *f_ptr2 = path(x_rac2, y_rac2, x2, y2);
+    FILE *f_ptr2 = path(x_rac2, y_rac2, x2, y2,obstacle);
     double t1[50];
     double t2[50];
     i = 0;
@@ -244,7 +305,7 @@ FILE *dividing_path(double x1, double y1, double x2, double y2,
  */
 int
 final_path(double x_root, double y_root, double x_arrival,
-	   double y_arrival)
+	   double y_arrival,char* obstacle)
 {
     location loc;
     location loc_root = locat_point(x_root, y_root);
@@ -256,36 +317,36 @@ final_path(double x_root, double y_root, double x_arrival,
     if ((loc_root == NORTH_SEA) && (loc_arrival != NORTH_SEA)
 	&& (loc_arrival != BALTIC_SEA)) {
 	loc = NORTH_SEA;
-	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival, loc);
+	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival,obstacle, loc);
     }
 
     else if ((loc_arrival == NORTH_SEA) && (loc_root != NORTH_SEA)
 	     && (loc_root != BALTIC_SEA)) {
 	loc = NORTH_SEA;
-	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root, loc);
+	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root,obstacle, loc);
 
     } else if ((loc_root == BALTIC_SEA) && (loc_arrival != BALTIC_SEA)) {
 	loc = BALTIC_SEA;
-	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival, loc);
+	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival,obstacle, loc);
 
     } else if ((loc_arrival == BALTIC_SEA) && (loc_root != BALTIC_SEA)) {
 	loc = BALTIC_SEA;
-	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root, loc);
+	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root,obstacle, loc);
 
     } else if ((loc_root == MEDETERANIAN)
 	       && (loc_arrival != MEDETERANIAN)) {
 	loc = MEDETERANIAN;
-	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival, loc);
+	f_ptr = dividing_path(x_root, y_root, x_arrival, y_arrival,obstacle, loc);
 
     } else if ((loc_arrival == MEDETERANIAN)
 	       && (loc_root != MEDETERANIAN)) {
 	loc = MEDETERANIAN;
-	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root, loc);
+	f_ptr = dividing_path(x_arrival, y_arrival, x_root, y_root,obstacle, loc);
 
     } else {
 	FILE *f_ptr1;
 	f_ptr = fopen(THE_PATH, "w");
-	f_ptr1 = path(x_root, y_root, x_arrival, y_arrival);
+	f_ptr1 = path(x_root, y_root, x_arrival, y_arrival,obstacle);
 	while (!feof(f_ptr1)) {
 	    double x, y;
 	    fscanf(f_ptr1, "%lf %lf", &x, &y);
@@ -335,9 +396,9 @@ final_path(double x_root, double y_root, double x_arrival,
  * \return 1 if the path has been found, else 0
  */
 opttree_t *create_environnement(double x_root, double y_root,
-				double x_arrival, double y_arrival, int k)
+				double x_arrival, double y_arrival,char* obstacles, int k)
 {
-    FILE *f_obstacles = fopen(OBSTACLES, "r");
+    FILE *f_obstacles = fopen(obstacles, "r");
     double x;
     double y;
     char str[150] = "";
@@ -394,17 +455,20 @@ opttree_t *create_environnement(double x_root, double y_root,
     int j = 0;
     int cpt_continent = 1;
     json_object *obj;
-    FILE *f = fopen("obstacles.geojson", "r");
+    fseek(f_obstacles,0,SEEK_END);
+    int t=ftell(f_obstacles);
+    fclose(f_obstacles);
+    FILE *f = fopen(obstacles, "r");
     char *str_;
-    char *str1;
-    str_ = malloc(10000000 * sizeof(char));
-    str1 = malloc(1000000 * sizeof(char));
-    fgets(str_, 10000000, f);
-   
-    while (fgets(str1, 100000, f) != NULL) {
+    char *str1; 
+    str_ = malloc(t* sizeof(char));
+    str1 = malloc(t * sizeof(char));
+    fgets(str_, t, f);
+    while (fgets(str1, t, f) != NULL) {
 	strcat(str_, str1);
 	fscanf(f, "\n");
     }
+
     obj = json_tokener_parse(str_);
     json_object *features = json_object_object_get(obj, "features");
     GSList *obstacle_list = NULL;
@@ -416,6 +480,8 @@ opttree_t *create_environnement(double x_root, double y_root,
 	GSList *obstacle = NULL;
 	json_object *poly = json_object_array_get_idx(features, j);
 	json_object *geometry = json_object_object_get(poly, "geometry");
+	json_object *type_geo = json_object_object_get(geometry, "type");
+	if (strcmp(json_object_to_json_string(type_geo),"\"Polygon\"") == 0 ){
 	json_object *coordinates =
 	    json_object_object_get(geometry, "coordinates");
 	json_object *coord = json_object_array_get_idx(coordinates, 0);
@@ -446,8 +512,50 @@ opttree_t *create_environnement(double x_root, double y_root,
 	shell = GEOSGeom_createLinearRing(cs);
 	g = GEOSGeom_createPolygon(shell, NULL, 0);
 	obstacle_list = g_slist_prepend(obstacle_list, g);
-
-    }
+	}
+	
+	
+	
+	
+	else if (strcmp(json_object_to_json_string(type_geo),"\"MultiPolygon\"") == 0 ) {
+		json_object *coordinates =
+		json_object_object_get(geometry, "coordinates");
+		
+		int jjj=0;
+		for (jjj=0;jjj<json_object_array_length(coordinates);jjj++){
+			json_object *coord0 = json_object_array_get_idx(coordinates, jjj);
+			json_object *coord = json_object_array_get_idx(coord0, 0);
+			json_object *jo = NULL;
+			json_object *x;
+			json_object *y;
+			int i = 0;
+			for (i = 0; i < json_object_array_length(coord); i++) {
+			    jo = json_object_array_get_idx(coord, i);
+			    x = json_object_array_get_idx(jo, 0);
+			    y = json_object_array_get_idx(jo, 1);
+			    char *str_x = json_object_to_json_string(x);
+			    char *str_y = json_object_to_json_string(y);
+			    node = malloc(sizeof(state_t));
+			    node->x[0] = atof(str_x)/k;
+			    node->x[1] = atof(str_y)/k;
+			    obstacle = g_slist_prepend(obstacle, node);
+			}
+			cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
+			int jj=0;
+			while (obstacle) {
+			    state_t *point = (state_t *) (obstacle->data);
+			    k_ = GEOSCoordSeq_setX(cs, jj, point->x[0]);
+			    k_ = GEOSCoordSeq_setY(cs, jj, point->x[1]);
+			    obstacle = g_slist_next(obstacle);
+			    jj++;
+			}
+			shell = GEOSGeom_createLinearRing(cs);
+			g = GEOSGeom_createPolygon(shell, NULL, 0);
+			obstacle_list = g_slist_prepend(obstacle_list, g);
+		}
+	}
+	
+	}
      optsystem_update_obstacles(opttree->optsys, obstacle_list);
     // 3. create the root state and the goal region
     state_t root_state = {
@@ -514,7 +622,7 @@ opttree_t *create_environnement(double x_root, double y_root,
  * \return f_ptr the file containing the nodes that constitute the path
  */
 FILE *path(double x_root, double y_root, double x_arrival,
-	   double y_arrival)
+	   double y_arrival,char* obstacle)
 {
 
     double x, y;
@@ -540,7 +648,7 @@ FILE *path(double x_root, double y_root, double x_arrival,
     }
     // 2. setup environnement
     opttree =
-	create_environnement(x_root, y_root, x_arrival, y_arrival, k);
+	create_environnement(x_root, y_root, x_arrival, y_arrival,obstacle, k);
 
     // 3. Run opttree in iterations
     state_t root_state = *((opttree->optsys)->initial_state);
