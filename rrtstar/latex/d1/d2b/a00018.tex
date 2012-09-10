@@ -1,0 +1,294 @@
+\hypertarget{a00018}{\section{optsystem.\-h \-File \-Reference}
+\label{d1/d2b/a00018}\index{optsystem.\-h@{optsystem.\-h}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$math.\-h$>$}\*
+{\ttfamily \#include $<$glib.\-h$>$}\*
+\-Include dependency graph for optsystem.\-h\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{d5/d16/a00029}
+\end{center}
+\end{figure}
+\-This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=279pt]{d5/d79/a00030}
+\end{center}
+\end{figure}
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{a00006}{\-\_\-region\-\_\-2d\-\_\-t}
+\item 
+struct \hyperlink{a00007}{\-\_\-state\-\_\-t}
+\item 
+struct \hyperlink{a00002}{\-\_\-input\-\_\-t}
+\item 
+struct \hyperlink{a00004}{\-\_\-optsystem\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{\-Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{a00018_a6e67a587012cd0570839daca590cf822_a6e67a587012cd0570839daca590cf822}{\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}~2
+\item 
+\#define \hyperlink{a00018_ad706a4e66dccbe66985b4c8785f28f3c_ad706a4e66dccbe66985b4c8785f28f3c}{\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S}~1
+\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{a00006}{\-\_\-region\-\_\-2d\-\_\-t} \hyperlink{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{region\-\_\-2d\-\_\-t}
+\item 
+typedef struct \hyperlink{a00007}{\-\_\-state\-\_\-t} \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t}
+\item 
+typedef struct \hyperlink{a00002}{\-\_\-input\-\_\-t} \hyperlink{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{input\-\_\-t}
+\item 
+typedef struct \hyperlink{a00004}{\-\_\-optsystem\-\_\-t} \hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{a00018_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}{optsystem\-\_\-new\-\_\-system} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00018_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}{optsystem\-\_\-free\-\_\-system} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$ \hyperlink{a00018_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}{optsystem\-\_\-new\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00018_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}{optsystem\-\_\-free\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+\hyperlink{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{input\-\_\-t} $\ast$ \hyperlink{a00018_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}{optsystem\-\_\-new\-\_\-input} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00018_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}{optsystem\-\_\-free\-\_\-input} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{input\-\_\-t} $\ast$input)
+\item 
+\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$ \hyperlink{a00018_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}{optsystem\-\_\-clone\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00018_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}{optsystem\-\_\-set\-\_\-initial\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00018_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}{optsystem\-\_\-get\-\_\-initial\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00018_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}{optsystem\-\_\-get\-\_\-num\-\_\-states} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+double $\ast$ \hyperlink{a00018_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}{optsystem\-\_\-get\-\_\-state\-\_\-key} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00018_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}{optsystem\-\_\-sample\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$random\-\_\-state)
+\item 
+int \hyperlink{a00018_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}{optsystem\-\_\-sample\-\_\-target\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$random\-\_\-state)
+\item 
+double \hyperlink{a00018_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}{optsystem\-\_\-evaluate\-\_\-distance} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-to)
+\item 
+double \hyperlink{a00018_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$inputs)
+\item 
+int \hyperlink{a00018_ab7f5b908723750c22585fb8d58f2c17f_ab7f5b908723750c22585fb8d58f2c17f}{optsystem\-\_\-extend\-\_\-to} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-towards, int $\ast$fully\-\_\-extends, \-G\-S\-List $\ast$$\ast$trajectory, int $\ast$num\-\_\-node\-\_\-states, int $\ast$$\ast$node\-\_\-states, \-G\-S\-List $\ast$$\ast$inputs)
+\item 
+gboolean \hyperlink{a00018_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}{optsystem\-\_\-is\-\_\-reaching\-\_\-target} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+gboolean \hyperlink{a00018_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}{optsystem\-\_\-update\-\_\-operating\-\_\-region} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{region\-\_\-2d\-\_\-t} $\ast$operating\-\_\-region)
+\item 
+gboolean \hyperlink{a00018_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}{optsystem\-\_\-update\-\_\-goal\-\_\-region} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{region\-\_\-2d\-\_\-t} $\ast$goal\-\_\-region)
+\item 
+gboolean \hyperlink{a00018_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}{optsystem\-\_\-update\-\_\-obstacles} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$obstacle\-\_\-list)
+\item 
+gboolean \hyperlink{a00018_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}{optsystem\-\_\-update\-\_\-rectangles} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$rectangle\-\_\-list)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Define \-Documentation}
+\hypertarget{a00018_ad706a4e66dccbe66985b4c8785f28f3c_ad706a4e66dccbe66985b4c8785f28f3c}{\index{optsystem.\-h@{optsystem.\-h}!\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S@{\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S}}
+\index{\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S@{\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{\-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-N\-U\-M\-\_\-\-I\-N\-P\-U\-T\-S}~1}}\label{d1/d2b/a00018_ad706a4e66dccbe66985b4c8785f28f3c_ad706a4e66dccbe66985b4c8785f28f3c}
+\hypertarget{a00018_a6e67a587012cd0570839daca590cf822_a6e67a587012cd0570839daca590cf822}{\index{optsystem.\-h@{optsystem.\-h}!\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}}
+\index{\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S@{\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{\-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-N\-U\-M\-\_\-\-S\-T\-A\-T\-E\-S}~2}}\label{d1/d2b/a00018_a6e67a587012cd0570839daca590cf822_a6e67a587012cd0570839daca590cf822}
+
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{\index{optsystem.\-h@{optsystem.\-h}!input\-\_\-t@{input\-\_\-t}}
+\index{input\-\_\-t@{input\-\_\-t}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{input\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-input\-\_\-t} {\bf input\-\_\-t}}}\label{d1/d2b/a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}
+\hypertarget{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-t@{optsystem\-\_\-t}}
+\index{optsystem\-\_\-t@{optsystem\-\_\-t}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-optsystem\-\_\-t} {\bf optsystem\-\_\-t}}}\label{d1/d2b/a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}
+\hypertarget{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{\index{optsystem.\-h@{optsystem.\-h}!region\-\_\-2d\-\_\-t@{region\-\_\-2d\-\_\-t}}
+\index{region\-\_\-2d\-\_\-t@{region\-\_\-2d\-\_\-t}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{region\-\_\-2d\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-region\-\_\-2d\-\_\-t} {\bf region\-\_\-2d\-\_\-t}}}\label{d1/d2b/a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}
+\hypertarget{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{\index{optsystem.\-h@{optsystem.\-h}!state\-\_\-t@{state\-\_\-t}}
+\index{state\-\_\-t@{state\-\_\-t}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{state\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-state\-\_\-t} {\bf state\-\_\-t}}}\label{d1/d2b/a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{a00018_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-clone\-\_\-state@{optsystem\-\_\-clone\-\_\-state}}
+\index{optsystem\-\_\-clone\-\_\-state@{optsystem\-\_\-clone\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-clone\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf state\-\_\-t}$\ast$ {\bf optsystem\-\_\-clone\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}
+\hypertarget{a00018_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-evaluate\-\_\-distance@{optsystem\-\_\-evaluate\-\_\-distance}}
+\index{optsystem\-\_\-evaluate\-\_\-distance@{optsystem\-\_\-evaluate\-\_\-distance}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-evaluate\-\_\-distance}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf optsystem\-\_\-evaluate\-\_\-distance} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-to}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}
+\hypertarget{a00018_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost@{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}}
+\index{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost@{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{inputs}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}
+\hypertarget{a00018_ab7f5b908723750c22585fb8d58f2c17f_ab7f5b908723750c22585fb8d58f2c17f}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-extend\-\_\-to@{optsystem\-\_\-extend\-\_\-to}}
+\index{optsystem\-\_\-extend\-\_\-to@{optsystem\-\_\-extend\-\_\-to}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-extend\-\_\-to}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-extend\-\_\-to} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-towards, }
+\item[{int $\ast$}]{fully\-\_\-extends, }
+\item[{\-G\-S\-List $\ast$$\ast$}]{trajectory, }
+\item[{int $\ast$}]{num\-\_\-node\-\_\-states, }
+\item[{int $\ast$$\ast$}]{node\-\_\-states, }
+\item[{\-G\-S\-List $\ast$$\ast$}]{inputs}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_ab7f5b908723750c22585fb8d58f2c17f_ab7f5b908723750c22585fb8d58f2c17f}
+\hypertarget{a00018_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-free\-\_\-input@{optsystem\-\_\-free\-\_\-input}}
+\index{optsystem\-\_\-free\-\_\-input@{optsystem\-\_\-free\-\_\-input}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-free\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-input} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf input\-\_\-t} $\ast$}]{input}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}
+\hypertarget{a00018_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-free\-\_\-state@{optsystem\-\_\-free\-\_\-state}}
+\index{optsystem\-\_\-free\-\_\-state@{optsystem\-\_\-free\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-free\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}
+\hypertarget{a00018_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-free\-\_\-system@{optsystem\-\_\-free\-\_\-system}}
+\index{optsystem\-\_\-free\-\_\-system@{optsystem\-\_\-free\-\_\-system}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-free\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-system} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}
+\hypertarget{a00018_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-get\-\_\-initial\-\_\-state@{optsystem\-\_\-get\-\_\-initial\-\_\-state}}
+\index{optsystem\-\_\-get\-\_\-initial\-\_\-state@{optsystem\-\_\-get\-\_\-initial\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-get\-\_\-initial\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-get\-\_\-initial\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}
+\hypertarget{a00018_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-get\-\_\-num\-\_\-states@{optsystem\-\_\-get\-\_\-num\-\_\-states}}
+\index{optsystem\-\_\-get\-\_\-num\-\_\-states@{optsystem\-\_\-get\-\_\-num\-\_\-states}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-get\-\_\-num\-\_\-states}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-get\-\_\-num\-\_\-states} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}
+\hypertarget{a00018_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-get\-\_\-state\-\_\-key@{optsystem\-\_\-get\-\_\-state\-\_\-key}}
+\index{optsystem\-\_\-get\-\_\-state\-\_\-key@{optsystem\-\_\-get\-\_\-state\-\_\-key}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-get\-\_\-state\-\_\-key}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ {\bf optsystem\-\_\-get\-\_\-state\-\_\-key} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}
+\hypertarget{a00018_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-is\-\_\-reaching\-\_\-target@{optsystem\-\_\-is\-\_\-reaching\-\_\-target}}
+\index{optsystem\-\_\-is\-\_\-reaching\-\_\-target@{optsystem\-\_\-is\-\_\-reaching\-\_\-target}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-is\-\_\-reaching\-\_\-target}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-is\-\_\-reaching\-\_\-target} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}
+\hypertarget{a00018_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-new\-\_\-input@{optsystem\-\_\-new\-\_\-input}}
+\index{optsystem\-\_\-new\-\_\-input@{optsystem\-\_\-new\-\_\-input}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-new\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf input\-\_\-t}$\ast$ {\bf optsystem\-\_\-new\-\_\-input} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}
+\hypertarget{a00018_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-new\-\_\-state@{optsystem\-\_\-new\-\_\-state}}
+\index{optsystem\-\_\-new\-\_\-state@{optsystem\-\_\-new\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-new\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf state\-\_\-t}$\ast$ {\bf optsystem\-\_\-new\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}
+\hypertarget{a00018_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-new\-\_\-system@{optsystem\-\_\-new\-\_\-system}}
+\index{optsystem\-\_\-new\-\_\-system@{optsystem\-\_\-new\-\_\-system}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-new\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-new\-\_\-system} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}
+\hypertarget{a00018_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-sample\-\_\-state@{optsystem\-\_\-sample\-\_\-state}}
+\index{optsystem\-\_\-sample\-\_\-state@{optsystem\-\_\-sample\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-sample\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-sample\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{random\-\_\-state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}
+\hypertarget{a00018_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-sample\-\_\-target\-\_\-state@{optsystem\-\_\-sample\-\_\-target\-\_\-state}}
+\index{optsystem\-\_\-sample\-\_\-target\-\_\-state@{optsystem\-\_\-sample\-\_\-target\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-sample\-\_\-target\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-sample\-\_\-target\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{random\-\_\-state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}
+\hypertarget{a00018_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-set\-\_\-initial\-\_\-state@{optsystem\-\_\-set\-\_\-initial\-\_\-state}}
+\index{optsystem\-\_\-set\-\_\-initial\-\_\-state@{optsystem\-\_\-set\-\_\-initial\-\_\-state}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-set\-\_\-initial\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-set\-\_\-initial\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}
+\hypertarget{a00018_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-update\-\_\-goal\-\_\-region@{optsystem\-\_\-update\-\_\-goal\-\_\-region}}
+\index{optsystem\-\_\-update\-\_\-goal\-\_\-region@{optsystem\-\_\-update\-\_\-goal\-\_\-region}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-update\-\_\-goal\-\_\-region}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-goal\-\_\-region} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf region\-\_\-2d\-\_\-t} $\ast$}]{goal\-\_\-region}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}
+\hypertarget{a00018_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-update\-\_\-obstacles@{optsystem\-\_\-update\-\_\-obstacles}}
+\index{optsystem\-\_\-update\-\_\-obstacles@{optsystem\-\_\-update\-\_\-obstacles}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-update\-\_\-obstacles}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-obstacles} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{obstacle\-\_\-list}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}
+\hypertarget{a00018_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-update\-\_\-operating\-\_\-region@{optsystem\-\_\-update\-\_\-operating\-\_\-region}}
+\index{optsystem\-\_\-update\-\_\-operating\-\_\-region@{optsystem\-\_\-update\-\_\-operating\-\_\-region}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-update\-\_\-operating\-\_\-region}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-operating\-\_\-region} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf region\-\_\-2d\-\_\-t} $\ast$}]{operating\-\_\-region}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}
+\hypertarget{a00018_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}{\index{optsystem.\-h@{optsystem.\-h}!optsystem\-\_\-update\-\_\-rectangles@{optsystem\-\_\-update\-\_\-rectangles}}
+\index{optsystem\-\_\-update\-\_\-rectangles@{optsystem\-\_\-update\-\_\-rectangles}!optsystem.h@{optsystem.\-h}}
+\subsubsection[{optsystem\-\_\-update\-\_\-rectangles}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-rectangles} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{rectangle\-\_\-list}
+\end{DoxyParamCaption}
+)}}\label{d1/d2b/a00018_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}

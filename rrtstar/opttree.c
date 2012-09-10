@@ -742,8 +742,8 @@ opttree_t* opttree_create () {
 
     // Initialize parameters to default values
     self->run_rrtstar = 1;
-    self->ball_radius_constant = 30.0;
-    self->ball_radius_max = 1.0;
+    self->ball_radius_constant = 30;
+    self->ball_radius_max = 1;
     self->target_sample_prob_after_first_solution = 0.0;
     self->target_sample_prob_before_first_solution = 0.9;
     return self;

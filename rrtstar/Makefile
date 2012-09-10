@@ -30,8 +30,9 @@ LDFLAGS = $(LDFLAGS_STD) $(LDFLAGS_GLIB) $(LDFLAGS_GEOS) $(LDFLAGS_JSON)
 
 OPTTREE_OBJS =  opttree.o \
 	        optsystem.o \
-		optmain.o \
-		kdtree.o
+		optpath.o \
+		kdtree.o \
+		path_main
 
 OPTTREE=./rrtst
 OPTTREE_DEPENDENCIES:=$(OPTTREE_OBJS) $(LDFLAGS_COMMON)

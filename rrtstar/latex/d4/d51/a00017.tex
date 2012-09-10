@@ -1,0 +1,284 @@
+\hypertarget{a00017}{\section{optsystem.\-c \-File \-Reference}
+\label{d4/d51/a00017}\index{optsystem.\-c@{optsystem.\-c}}
+}
+{\ttfamily \#include \char`\"{}optsystem.\-h\char`\"{}}\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\*
+{\ttfamily \#include \char`\"{}geos\-\_\-c.\-h\char`\"{}}\*
+\-Include dependency graph for optsystem.\-c\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dc/d3c/a00028}
+\end{center}
+\end{figure}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean \hyperlink{a00017_a9f36fca086a6cf92613350b5b2d513a7_a9f36fca086a6cf92613350b5b2d513a7}{optsystem\-\_\-on\-\_\-obstacle} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00017_ab593d0ccc2b4b49a7ba7a140505bdb5c_ab593d0ccc2b4b49a7ba7a140505bdb5c}{optsystem\-\_\-segment\-\_\-on\-\_\-obstacle} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-initial, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-final, int num\-\_\-steps)
+\item 
+int \hyperlink{a00017_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}{optsystem\-\_\-new\-\_\-system} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+void \hyperlink{a00017_aa9b138e04bbc249582d169d3e3b710df_aa9b138e04bbc249582d169d3e3b710df}{notice} (const char $\ast$fmt,...)
+\item 
+void \hyperlink{a00017_afc84c983cb791517c5f8cdf61cd6bea0_afc84c983cb791517c5f8cdf61cd6bea0}{log\-\_\-and\-\_\-exit} (const char $\ast$fmt,...)
+\item 
+int \hyperlink{a00017_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}{optsystem\-\_\-free\-\_\-system} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$ \hyperlink{a00017_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}{optsystem\-\_\-new\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00017_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}{optsystem\-\_\-free\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+\hyperlink{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{input\-\_\-t} $\ast$ \hyperlink{a00017_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}{optsystem\-\_\-new\-\_\-input} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00017_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}{optsystem\-\_\-free\-\_\-input} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a8e5c489dcfacb9bd5f2985013638ea12_a8e5c489dcfacb9bd5f2985013638ea12}{input\-\_\-t} $\ast$input)
+\item 
+\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$ \hyperlink{a00017_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}{optsystem\-\_\-clone\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00017_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}{optsystem\-\_\-set\-\_\-initial\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00017_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}{optsystem\-\_\-get\-\_\-initial\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00017_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}{optsystem\-\_\-get\-\_\-num\-\_\-states} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self)
+\item 
+double $\ast$ \hyperlink{a00017_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}{optsystem\-\_\-get\-\_\-state\-\_\-key} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+int \hyperlink{a00017_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}{optsystem\-\_\-sample\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$random\-\_\-state)
+\item 
+int \hyperlink{a00017_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}{optsystem\-\_\-sample\-\_\-target\-\_\-state} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$random\-\_\-state)
+\item 
+double \hyperlink{a00017_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}{optsystem\-\_\-evaluate\-\_\-distance} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-to)
+\item 
+double \hyperlink{a00017_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$inputs)
+\item 
+int \hyperlink{a00017_a10f9c56911d68043e9357824ef0440bc_a10f9c56911d68043e9357824ef0440bc}{optsystem\-\_\-extend\-\_\-to} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-towards, int $\ast$fully\-\_\-extends, \-G\-S\-List $\ast$$\ast$trajectory, int $\ast$num\-\_\-node\-\_\-states, int $\ast$$\ast$nodes\-\_\-states, \-G\-S\-List $\ast$$\ast$inputs)
+\item 
+gboolean \hyperlink{a00017_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}{optsystem\-\_\-is\-\_\-reaching\-\_\-target} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+double \hyperlink{a00017_a1ae2c2cb3d755ea6b5465a6e3a015af0_a1ae2c2cb3d755ea6b5465a6e3a015af0}{optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\item 
+gboolean \hyperlink{a00017_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}{optsystem\-\_\-update\-\_\-goal\-\_\-region} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{region\-\_\-2d\-\_\-t} $\ast$goal\-\_\-region)
+\item 
+gboolean \hyperlink{a00017_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}{optsystem\-\_\-update\-\_\-operating\-\_\-region} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \hyperlink{a00018_a9136102e25aac8406a94d89f5a95bd1f_a9136102e25aac8406a94d89f5a95bd1f}{region\-\_\-2d\-\_\-t} $\ast$operating\-\_\-region)
+\item 
+gboolean \hyperlink{a00017_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}{optsystem\-\_\-update\-\_\-obstacles} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$obstacle\-\_\-list)
+\item 
+gboolean \hyperlink{a00017_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}{optsystem\-\_\-update\-\_\-rectangles} (\hyperlink{a00018_a48d08bbb4534f55ba817743a2b91360c_a48d08bbb4534f55ba817743a2b91360c}{optsystem\-\_\-t} $\ast$self, \-G\-S\-List $\ast$rectangle\-\_\-list)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{a00017_afc84c983cb791517c5f8cdf61cd6bea0_afc84c983cb791517c5f8cdf61cd6bea0}{\index{optsystem.\-c@{optsystem.\-c}!log\-\_\-and\-\_\-exit@{log\-\_\-and\-\_\-exit}}
+\index{log\-\_\-and\-\_\-exit@{log\-\_\-and\-\_\-exit}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{log\-\_\-and\-\_\-exit}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf log\-\_\-and\-\_\-exit} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_afc84c983cb791517c5f8cdf61cd6bea0_afc84c983cb791517c5f8cdf61cd6bea0}
+\hypertarget{a00017_aa9b138e04bbc249582d169d3e3b710df_aa9b138e04bbc249582d169d3e3b710df}{\index{optsystem.\-c@{optsystem.\-c}!notice@{notice}}
+\index{notice@{notice}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{notice}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf notice} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_aa9b138e04bbc249582d169d3e3b710df_aa9b138e04bbc249582d169d3e3b710df}
+\hypertarget{a00017_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-clone\-\_\-state@{optsystem\-\_\-clone\-\_\-state}}
+\index{optsystem\-\_\-clone\-\_\-state@{optsystem\-\_\-clone\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-clone\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf state\-\_\-t}$\ast$ {\bf optsystem\-\_\-clone\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_adccdea6115438d8427e2969bffd8d87e_adccdea6115438d8427e2969bffd8d87e}
+\hypertarget{a00017_a1ae2c2cb3d755ea6b5465a6e3a015af0_a1ae2c2cb3d755ea6b5465a6e3a015af0}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go@{optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go}}
+\index{optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go@{optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf optsystem\-\_\-evaluate\-\_\-cost\-\_\-to\-\_\-go} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a1ae2c2cb3d755ea6b5465a6e3a015af0_a1ae2c2cb3d755ea6b5465a6e3a015af0}
+\hypertarget{a00017_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-evaluate\-\_\-distance@{optsystem\-\_\-evaluate\-\_\-distance}}
+\index{optsystem\-\_\-evaluate\-\_\-distance@{optsystem\-\_\-evaluate\-\_\-distance}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-evaluate\-\_\-distance}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf optsystem\-\_\-evaluate\-\_\-distance} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-to}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_afce48612176b92f14cb7ffcc91259454_afce48612176b92f14cb7ffcc91259454}
+\hypertarget{a00017_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost@{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}}
+\index{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost@{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf optsystem\-\_\-evaluate\-\_\-distance\-\_\-for\-\_\-cost} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{inputs}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_acb788463670e5a6ef08d3759e8fc22ba_acb788463670e5a6ef08d3759e8fc22ba}
+\hypertarget{a00017_a10f9c56911d68043e9357824ef0440bc_a10f9c56911d68043e9357824ef0440bc}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-extend\-\_\-to@{optsystem\-\_\-extend\-\_\-to}}
+\index{optsystem\-\_\-extend\-\_\-to@{optsystem\-\_\-extend\-\_\-to}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-extend\-\_\-to}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-extend\-\_\-to} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-towards, }
+\item[{int $\ast$}]{fully\-\_\-extends, }
+\item[{\-G\-S\-List $\ast$$\ast$}]{trajectory, }
+\item[{int $\ast$}]{num\-\_\-node\-\_\-states, }
+\item[{int $\ast$$\ast$}]{nodes\-\_\-states, }
+\item[{\-G\-S\-List $\ast$$\ast$}]{inputs}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a10f9c56911d68043e9357824ef0440bc_a10f9c56911d68043e9357824ef0440bc}
+\hypertarget{a00017_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-free\-\_\-input@{optsystem\-\_\-free\-\_\-input}}
+\index{optsystem\-\_\-free\-\_\-input@{optsystem\-\_\-free\-\_\-input}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-free\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-input} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf input\-\_\-t} $\ast$}]{input}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_aa20115db43f7ad2bc631d4dee3faf439_aa20115db43f7ad2bc631d4dee3faf439}
+\hypertarget{a00017_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-free\-\_\-state@{optsystem\-\_\-free\-\_\-state}}
+\index{optsystem\-\_\-free\-\_\-state@{optsystem\-\_\-free\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-free\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a27f43c59aba7a8c383399066481b18ba_a27f43c59aba7a8c383399066481b18ba}
+\hypertarget{a00017_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-free\-\_\-system@{optsystem\-\_\-free\-\_\-system}}
+\index{optsystem\-\_\-free\-\_\-system@{optsystem\-\_\-free\-\_\-system}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-free\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-free\-\_\-system} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a1b54dac5618bcfadd941a7585239e52e_a1b54dac5618bcfadd941a7585239e52e}
+\hypertarget{a00017_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-get\-\_\-initial\-\_\-state@{optsystem\-\_\-get\-\_\-initial\-\_\-state}}
+\index{optsystem\-\_\-get\-\_\-initial\-\_\-state@{optsystem\-\_\-get\-\_\-initial\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-get\-\_\-initial\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-get\-\_\-initial\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_ad414a4b37c77f9e4324071ee6fc1c1b8_ad414a4b37c77f9e4324071ee6fc1c1b8}
+\hypertarget{a00017_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-get\-\_\-num\-\_\-states@{optsystem\-\_\-get\-\_\-num\-\_\-states}}
+\index{optsystem\-\_\-get\-\_\-num\-\_\-states@{optsystem\-\_\-get\-\_\-num\-\_\-states}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-get\-\_\-num\-\_\-states}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-get\-\_\-num\-\_\-states} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_aa8d351156d5b945f766be43089c406e4_aa8d351156d5b945f766be43089c406e4}
+\hypertarget{a00017_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-get\-\_\-state\-\_\-key@{optsystem\-\_\-get\-\_\-state\-\_\-key}}
+\index{optsystem\-\_\-get\-\_\-state\-\_\-key@{optsystem\-\_\-get\-\_\-state\-\_\-key}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-get\-\_\-state\-\_\-key}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ {\bf optsystem\-\_\-get\-\_\-state\-\_\-key} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a4748b851e592ba16255987990df866dc_a4748b851e592ba16255987990df866dc}
+\hypertarget{a00017_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-is\-\_\-reaching\-\_\-target@{optsystem\-\_\-is\-\_\-reaching\-\_\-target}}
+\index{optsystem\-\_\-is\-\_\-reaching\-\_\-target@{optsystem\-\_\-is\-\_\-reaching\-\_\-target}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-is\-\_\-reaching\-\_\-target}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-is\-\_\-reaching\-\_\-target} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a6e1675238ed175e198390a142a966fbb_a6e1675238ed175e198390a142a966fbb}
+\hypertarget{a00017_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-new\-\_\-input@{optsystem\-\_\-new\-\_\-input}}
+\index{optsystem\-\_\-new\-\_\-input@{optsystem\-\_\-new\-\_\-input}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-new\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf input\-\_\-t}$\ast$ {\bf optsystem\-\_\-new\-\_\-input} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_ac249533c36b3db8e1236a3ede20c0be2_ac249533c36b3db8e1236a3ede20c0be2}
+\hypertarget{a00017_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-new\-\_\-state@{optsystem\-\_\-new\-\_\-state}}
+\index{optsystem\-\_\-new\-\_\-state@{optsystem\-\_\-new\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-new\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf state\-\_\-t}$\ast$ {\bf optsystem\-\_\-new\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a7eb5bfb9a16cf6e49245635fa2400465_a7eb5bfb9a16cf6e49245635fa2400465}
+\hypertarget{a00017_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-new\-\_\-system@{optsystem\-\_\-new\-\_\-system}}
+\index{optsystem\-\_\-new\-\_\-system@{optsystem\-\_\-new\-\_\-system}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-new\-\_\-system}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-new\-\_\-system} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_ad37a0c28a54088a6415ad9dd85542379_ad37a0c28a54088a6415ad9dd85542379}
+\hypertarget{a00017_a9f36fca086a6cf92613350b5b2d513a7_a9f36fca086a6cf92613350b5b2d513a7}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-on\-\_\-obstacle@{optsystem\-\_\-on\-\_\-obstacle}}
+\index{optsystem\-\_\-on\-\_\-obstacle@{optsystem\-\_\-on\-\_\-obstacle}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-on\-\_\-obstacle}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-on\-\_\-obstacle} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a9f36fca086a6cf92613350b5b2d513a7_a9f36fca086a6cf92613350b5b2d513a7}
+\hypertarget{a00017_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-sample\-\_\-state@{optsystem\-\_\-sample\-\_\-state}}
+\index{optsystem\-\_\-sample\-\_\-state@{optsystem\-\_\-sample\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-sample\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-sample\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{random\-\_\-state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a778500228810cbc69a6d17494f889b87_a778500228810cbc69a6d17494f889b87}
+\hypertarget{a00017_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-sample\-\_\-target\-\_\-state@{optsystem\-\_\-sample\-\_\-target\-\_\-state}}
+\index{optsystem\-\_\-sample\-\_\-target\-\_\-state@{optsystem\-\_\-sample\-\_\-target\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-sample\-\_\-target\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-sample\-\_\-target\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{random\-\_\-state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a2294e6525f29f89ef7c0e3424063df15_a2294e6525f29f89ef7c0e3424063df15}
+\hypertarget{a00017_ab593d0ccc2b4b49a7ba7a140505bdb5c_ab593d0ccc2b4b49a7ba7a140505bdb5c}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-segment\-\_\-on\-\_\-obstacle@{optsystem\-\_\-segment\-\_\-on\-\_\-obstacle}}
+\index{optsystem\-\_\-segment\-\_\-on\-\_\-obstacle@{optsystem\-\_\-segment\-\_\-on\-\_\-obstacle}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-segment\-\_\-on\-\_\-obstacle}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-segment\-\_\-on\-\_\-obstacle} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-initial, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-final, }
+\item[{int}]{num\-\_\-steps}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_ab593d0ccc2b4b49a7ba7a140505bdb5c_ab593d0ccc2b4b49a7ba7a140505bdb5c}
+\hypertarget{a00017_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-set\-\_\-initial\-\_\-state@{optsystem\-\_\-set\-\_\-initial\-\_\-state}}
+\index{optsystem\-\_\-set\-\_\-initial\-\_\-state@{optsystem\-\_\-set\-\_\-initial\-\_\-state}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-set\-\_\-initial\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf optsystem\-\_\-set\-\_\-initial\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a4b9f82df886ac6634d2ee9532b603163_a4b9f82df886ac6634d2ee9532b603163}
+\hypertarget{a00017_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-update\-\_\-goal\-\_\-region@{optsystem\-\_\-update\-\_\-goal\-\_\-region}}
+\index{optsystem\-\_\-update\-\_\-goal\-\_\-region@{optsystem\-\_\-update\-\_\-goal\-\_\-region}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-update\-\_\-goal\-\_\-region}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-goal\-\_\-region} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf region\-\_\-2d\-\_\-t} $\ast$}]{goal\-\_\-region}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a086fb96570b474b5658dc991c8becc79_a086fb96570b474b5658dc991c8becc79}
+\hypertarget{a00017_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-update\-\_\-obstacles@{optsystem\-\_\-update\-\_\-obstacles}}
+\index{optsystem\-\_\-update\-\_\-obstacles@{optsystem\-\_\-update\-\_\-obstacles}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-update\-\_\-obstacles}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-obstacles} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{obstacle\-\_\-list}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a0ad4a450490357b767cd191a83d2cdec_a0ad4a450490357b767cd191a83d2cdec}
+\hypertarget{a00017_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-update\-\_\-operating\-\_\-region@{optsystem\-\_\-update\-\_\-operating\-\_\-region}}
+\index{optsystem\-\_\-update\-\_\-operating\-\_\-region@{optsystem\-\_\-update\-\_\-operating\-\_\-region}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-update\-\_\-operating\-\_\-region}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-operating\-\_\-region} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{{\bf region\-\_\-2d\-\_\-t} $\ast$}]{operating\-\_\-region}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_a3af82be1a1df5324149ee8a6450e0381_a3af82be1a1df5324149ee8a6450e0381}
+\hypertarget{a00017_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}{\index{optsystem.\-c@{optsystem.\-c}!optsystem\-\_\-update\-\_\-rectangles@{optsystem\-\_\-update\-\_\-rectangles}}
+\index{optsystem\-\_\-update\-\_\-rectangles@{optsystem\-\_\-update\-\_\-rectangles}!optsystem.c@{optsystem.\-c}}
+\subsubsection[{optsystem\-\_\-update\-\_\-rectangles}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf optsystem\-\_\-update\-\_\-rectangles} (
+\begin{DoxyParamCaption}
+\item[{{\bf optsystem\-\_\-t} $\ast$}]{self, }
+\item[{\-G\-S\-List $\ast$}]{rectangle\-\_\-list}
+\end{DoxyParamCaption}
+)}}\label{d4/d51/a00017_afaee017543d17527597efd3a34a7c317_afaee017543d17527597efd3a34a7c317}

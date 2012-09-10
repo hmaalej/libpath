@@ -250,7 +250,7 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
 
 
 	g1 = GEOSGeom_createLineString(cs1);
-	/*
+	
 	while (rectangle_list_curr) {
 		GEOSGeometry* g3 = (rectangle_list_curr->data); 
 	
@@ -260,7 +260,7 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
 		}
 		rectangle_list_curr = g_slist_next (rectangle_list_curr);
 	}
-	*/
+	
 	GEOSGeometry* g2;
 	while (obstacle_list_curr) {
 		g2 = (obstacle_list_curr->data); 
@@ -364,7 +364,7 @@ i=GEOSCoordSeq_setY(cs1, 0,state->x[1]);
 
 g1 = GEOSGeom_createPoint(cs1);
 
-/*
+
 while (rectangle_list_curr) {
 	g3 = (rectangle_list_curr->data);
 	
@@ -376,7 +376,7 @@ while (rectangle_list_curr) {
 	
  	rectangle_list_curr = g_slist_next (rectangle_list_curr);
 }	
-*/
+
 while (obstacle_list_curr) {
 	g2 = (obstacle_list_curr->data);
 	

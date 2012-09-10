@@ -1,0 +1,207 @@
+\hypertarget{a00019}{\section{opttree.\-c \-File \-Reference}
+\label{dd/da2/a00019}\index{opttree.\-c@{opttree.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$math.\-h$>$}\*
+{\ttfamily \#include $<$sys/time.\-h$>$}\*
+{\ttfamily \#include $<$glib.\-h$>$}\*
+{\ttfamily \#include \char`\"{}opttree.\-h\char`\"{}}\*
+\-Include dependency graph for opttree.\-c\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d61/a00031}
+\end{center}
+\end{figure}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_a806855fa3cbd142adb06cb12f86af6cf_a806855fa3cbd142adb06cb12f86af6cf}{opttree\-\_\-new\-\_\-node} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self)
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_a7a0fd222dbfa68db41e0cfda4653a0fd_a7a0fd222dbfa68db41e0cfda4653a0fd}{opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state} ()
+\item 
+int \hyperlink{a00019_ac3ec357f9dc6bf3500abf3da09a50fdf_ac3ec357f9dc6bf3500abf3da09a50fdf}{opttree\-\_\-free\-\_\-node} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node)
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_ad0c1d9701587dc00f5978ee460b095b9_ad0c1d9701587dc00f5978ee460b095b9}{opttree\-\_\-find\-\_\-nearest\-\_\-neighbor} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-from)
+\item 
+void \hyperlink{a00019_a837559b8536b59875d2a4ae3389997b9_a837559b8536b59875d2a4ae3389997b9}{opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-parent, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-curr)
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9}{opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-start, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-end, \-G\-S\-List $\ast$trajectory, int num\-\_\-node\-\_\-states, int $\ast$node\-\_\-states, \-G\-S\-List $\ast$inputs)
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_a4c7ac9f461a2ab5ee216ff5ee1a71581_a4c7ac9f461a2ab5ee216ff5ee1a71581}{opttree\-\_\-extend\-\_\-towards\-\_\-sample} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-towards)
+\item 
+\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$ \hyperlink{a00019_a10ca7374cac48feb78ca27aa0f1c5f4b_a10ca7374cac48feb78ca27aa0f1c5f4b}{opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-from, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-towards)
+\item 
+\hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$ \hyperlink{a00019_a9b3dc630acdceed59117ab742023e386_a9b3dc630acdceed59117ab742023e386}{opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state\-\_\-towards, \-G\-S\-List $\ast$list\-\_\-nodes)
+\item 
+\-G\-S\-List $\ast$ \hyperlink{a00019_ad857d6510573bc8771e20d4f290a8cc9_ad857d6510573bc8771e20d4f290a8cc9}{opttree\-\_\-kdtree\-\_\-to\-\_\-gslist} (\hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state, \hyperlink{a00020_a7aa4cf85254d52d13693c7328834f6c5_a7aa4cf85254d52d13693c7328834f6c5}{kdres\-\_\-t} $\ast$\hyperlink{a00010}{kdres})
+\item 
+\-G\-S\-List $\ast$ \hyperlink{a00019_a8713a409c570a5ec10b251b62ee8714e_a8713a409c570a5ec10b251b62ee8714e}{opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state, double ball\-\_\-radius)
+\item 
+int \hyperlink{a00019_a5693c6e43fd9b41afba070ed16bbbcf6_a5693c6e43fd9b41afba070ed16bbbcf6}{opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00020_a9c3f304c1ae0687240efd69b7dc98cd6_a9c3f304c1ae0687240efd69b7dc98cd6}{node\-\_\-t} $\ast$node\-\_\-from, \-G\-S\-List $\ast$node\-\_\-list)
+\item 
+int \hyperlink{a00019_a555d69f9356c39303401f79b5e3c02b8_a555d69f9356c39303401f79b5e3c02b8}{opttree\-\_\-iteration} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00019_a1a94286b5107f470ea340b615cc1e11c_a1a94286b5107f470ea340b615cc1e11c}{opttree\-\_\-reinitialize} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self)
+\item 
+\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$ \hyperlink{a00019_a9477fb49d51f94d64301104b66f6f193_a9477fb49d51f94d64301104b66f6f193}{opttree\-\_\-create} ()
+\item 
+int \hyperlink{a00019_a0870ad0ef3b9b2f3ada62a352430f4b1_a0870ad0ef3b9b2f3ada62a352430f4b1}{opttree\-\_\-free\-\_\-tree} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00019_a87bc01b7917d322ff2ee448bb4055557_a87bc01b7917d322ff2ee448bb4055557}{opttree\-\_\-destroy} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self)
+\item 
+int \hyperlink{a00019_a7e5472ef1473797978ce8216b345b7fa_a7e5472ef1473797978ce8216b345b7fa}{opttree\-\_\-set\-\_\-root\-\_\-state} (\hyperlink{a00020_a07b75293fafb6f31b7e9f723848ad105_a07b75293fafb6f31b7e9f723848ad105}{opttree\-\_\-t} $\ast$self, \hyperlink{a00018_a1c9d0bb39483d4981491e6383b0dbb47_a1c9d0bb39483d4981491e6383b0dbb47}{state\-\_\-t} $\ast$state)
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{a00019_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph@{opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph}}
+\index{opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph@{opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-add\-\_\-traj\-\_\-to\-\_\-graph} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-start, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-end, }
+\item[{\-G\-S\-List $\ast$}]{trajectory, }
+\item[{int}]{num\-\_\-node\-\_\-states, }
+\item[{int $\ast$}]{node\-\_\-states, }
+\item[{\-G\-S\-List $\ast$}]{inputs}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9_ac34ccb07ab6ad6b4ea9a46eb2e1d4bc9}
+\hypertarget{a00019_a9477fb49d51f94d64301104b66f6f193_a9477fb49d51f94d64301104b66f6f193}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-create@{opttree\-\_\-create}}
+\index{opttree\-\_\-create@{opttree\-\_\-create}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf opttree\-\_\-t}$\ast$ {\bf opttree\-\_\-create} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a9477fb49d51f94d64301104b66f6f193_a9477fb49d51f94d64301104b66f6f193}
+\hypertarget{a00019_a87bc01b7917d322ff2ee448bb4055557_a87bc01b7917d322ff2ee448bb4055557}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-destroy@{opttree\-\_\-destroy}}
+\index{opttree\-\_\-destroy@{opttree\-\_\-destroy}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-destroy}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-destroy} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a87bc01b7917d322ff2ee448bb4055557_a87bc01b7917d322ff2ee448bb4055557}
+\hypertarget{a00019_a5693c6e43fd9b41afba070ed16bbbcf6_a5693c6e43fd9b41afba070ed16bbbcf6}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree@{opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree}}
+\index{opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree@{opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-extend\-\_\-back\-\_\-to\-\_\-tree} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-from, }
+\item[{\-G\-S\-List $\ast$}]{node\-\_\-list}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a5693c6e43fd9b41afba070ed16bbbcf6_a5693c6e43fd9b41afba070ed16bbbcf6}
+\hypertarget{a00019_a4c7ac9f461a2ab5ee216ff5ee1a71581_a4c7ac9f461a2ab5ee216ff5ee1a71581}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-extend\-\_\-towards\-\_\-sample@{opttree\-\_\-extend\-\_\-towards\-\_\-sample}}
+\index{opttree\-\_\-extend\-\_\-towards\-\_\-sample@{opttree\-\_\-extend\-\_\-towards\-\_\-sample}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-extend\-\_\-towards\-\_\-sample}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-extend\-\_\-towards\-\_\-sample} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-towards}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a4c7ac9f461a2ab5ee216ff5ee1a71581_a4c7ac9f461a2ab5ee216ff5ee1a71581}
+\hypertarget{a00019_a10ca7374cac48feb78ca27aa0f1c5f4b_a10ca7374cac48feb78ca27aa0f1c5f4b}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node@{opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node}}
+\index{opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node@{opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf state\-\_\-t}$\ast$ {\bf opttree\-\_\-extend\-\_\-towards\-\_\-sample\-\_\-no\-\_\-create\-\_\-node} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-from, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-towards}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a10ca7374cac48feb78ca27aa0f1c5f4b_a10ca7374cac48feb78ca27aa0f1c5f4b}
+\hypertarget{a00019_a9b3dc630acdceed59117ab742023e386_a9b3dc630acdceed59117ab742023e386}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set@{opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set}}
+\index{opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set@{opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-find\-\_\-min\-\_\-node\-\_\-in\-\_\-set} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-towards, }
+\item[{\-G\-S\-List $\ast$}]{list\-\_\-nodes}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a9b3dc630acdceed59117ab742023e386_a9b3dc630acdceed59117ab742023e386}
+\hypertarget{a00019_ad0c1d9701587dc00f5978ee460b095b9_ad0c1d9701587dc00f5978ee460b095b9}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-find\-\_\-nearest\-\_\-neighbor@{opttree\-\_\-find\-\_\-nearest\-\_\-neighbor}}
+\index{opttree\-\_\-find\-\_\-nearest\-\_\-neighbor@{opttree\-\_\-find\-\_\-nearest\-\_\-neighbor}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-find\-\_\-nearest\-\_\-neighbor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-find\-\_\-nearest\-\_\-neighbor} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state\-\_\-from}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_ad0c1d9701587dc00f5978ee460b095b9_ad0c1d9701587dc00f5978ee460b095b9}
+\hypertarget{a00019_a8713a409c570a5ec10b251b62ee8714e_a8713a409c570a5ec10b251b62ee8714e}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball@{opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball}}
+\index{opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball@{opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-S\-List$\ast$ {\bf opttree\-\_\-find\-\_\-nodes\-\_\-in\-\_\-ball} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state, }
+\item[{double}]{ball\-\_\-radius}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a8713a409c570a5ec10b251b62ee8714e_a8713a409c570a5ec10b251b62ee8714e}
+\hypertarget{a00019_ac3ec357f9dc6bf3500abf3da09a50fdf_ac3ec357f9dc6bf3500abf3da09a50fdf}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-free\-\_\-node@{opttree\-\_\-free\-\_\-node}}
+\index{opttree\-\_\-free\-\_\-node@{opttree\-\_\-free\-\_\-node}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-free\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-free\-\_\-node} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_ac3ec357f9dc6bf3500abf3da09a50fdf_ac3ec357f9dc6bf3500abf3da09a50fdf}
+\hypertarget{a00019_a0870ad0ef3b9b2f3ada62a352430f4b1_a0870ad0ef3b9b2f3ada62a352430f4b1}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-free\-\_\-tree@{opttree\-\_\-free\-\_\-tree}}
+\index{opttree\-\_\-free\-\_\-tree@{opttree\-\_\-free\-\_\-tree}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-free\-\_\-tree}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-free\-\_\-tree} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a0870ad0ef3b9b2f3ada62a352430f4b1_a0870ad0ef3b9b2f3ada62a352430f4b1}
+\hypertarget{a00019_a555d69f9356c39303401f79b5e3c02b8_a555d69f9356c39303401f79b5e3c02b8}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-iteration@{opttree\-\_\-iteration}}
+\index{opttree\-\_\-iteration@{opttree\-\_\-iteration}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-iteration}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-iteration} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a555d69f9356c39303401f79b5e3c02b8_a555d69f9356c39303401f79b5e3c02b8}
+\hypertarget{a00019_ad857d6510573bc8771e20d4f290a8cc9_ad857d6510573bc8771e20d4f290a8cc9}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-kdtree\-\_\-to\-\_\-gslist@{opttree\-\_\-kdtree\-\_\-to\-\_\-gslist}}
+\index{opttree\-\_\-kdtree\-\_\-to\-\_\-gslist@{opttree\-\_\-kdtree\-\_\-to\-\_\-gslist}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-kdtree\-\_\-to\-\_\-gslist}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-S\-List$\ast$ {\bf opttree\-\_\-kdtree\-\_\-to\-\_\-gslist} (
+\begin{DoxyParamCaption}
+\item[{{\bf state\-\_\-t} $\ast$}]{state, }
+\item[{{\bf kdres\-\_\-t} $\ast$}]{kdres}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_ad857d6510573bc8771e20d4f290a8cc9_ad857d6510573bc8771e20d4f290a8cc9}
+\hypertarget{a00019_a806855fa3cbd142adb06cb12f86af6cf_a806855fa3cbd142adb06cb12f86af6cf}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-new\-\_\-node@{opttree\-\_\-new\-\_\-node}}
+\index{opttree\-\_\-new\-\_\-node@{opttree\-\_\-new\-\_\-node}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-new\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-new\-\_\-node} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a806855fa3cbd142adb06cb12f86af6cf_a806855fa3cbd142adb06cb12f86af6cf}
+\hypertarget{a00019_a7a0fd222dbfa68db41e0cfda4653a0fd_a7a0fd222dbfa68db41e0cfda4653a0fd}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state@{opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state}}
+\index{opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state@{opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node\-\_\-t}$\ast$ {\bf opttree\-\_\-new\-\_\-node\-\_\-no\-\_\-state} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a7a0fd222dbfa68db41e0cfda4653a0fd_a7a0fd222dbfa68db41e0cfda4653a0fd}
+\hypertarget{a00019_a1a94286b5107f470ea340b615cc1e11c_a1a94286b5107f470ea340b615cc1e11c}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-reinitialize@{opttree\-\_\-reinitialize}}
+\index{opttree\-\_\-reinitialize@{opttree\-\_\-reinitialize}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-reinitialize}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-reinitialize} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a1a94286b5107f470ea340b615cc1e11c_a1a94286b5107f470ea340b615cc1e11c}
+\hypertarget{a00019_a7e5472ef1473797978ce8216b345b7fa_a7e5472ef1473797978ce8216b345b7fa}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-set\-\_\-root\-\_\-state@{opttree\-\_\-set\-\_\-root\-\_\-state}}
+\index{opttree\-\_\-set\-\_\-root\-\_\-state@{opttree\-\_\-set\-\_\-root\-\_\-state}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-set\-\_\-root\-\_\-state}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf opttree\-\_\-set\-\_\-root\-\_\-state} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf state\-\_\-t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a7e5472ef1473797978ce8216b345b7fa_a7e5472ef1473797978ce8216b345b7fa}
+\hypertarget{a00019_a837559b8536b59875d2a4ae3389997b9_a837559b8536b59875d2a4ae3389997b9}{\index{opttree.\-c@{opttree.\-c}!opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root@{opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root}}
+\index{opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root@{opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root}!opttree.c@{opttree.\-c}}
+\subsubsection[{opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf opttree\-\_\-update\-\_\-distance\-\_\-from\-\_\-root} (
+\begin{DoxyParamCaption}
+\item[{{\bf opttree\-\_\-t} $\ast$}]{self, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-parent, }
+\item[{{\bf node\-\_\-t} $\ast$}]{node\-\_\-curr}
+\end{DoxyParamCaption}
+)}}\label{dd/da2/a00019_a837559b8536b59875d2a4ae3389997b9_a837559b8536b59875d2a4ae3389997b9}
