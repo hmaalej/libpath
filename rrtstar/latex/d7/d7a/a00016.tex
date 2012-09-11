@@ -9,16 +9,14 @@
 {\ttfamily \#include $<$unistd.\-h$>$}\*
 {\ttfamily \#include \char`\"{}opttree.\-h\char`\"{}}\*
 {\ttfamily \#include \char`\"{}geos\-\_\-c.\-h\char`\"{}}\*
-\-Include dependency graph for optpath.\-h\-:
-\nopagebreak
+\-Include dependency graph for optpath.\-h\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{d6/d5b/a00026}
 \end{center}
 \end{figure}
-\-This graph shows which files directly or indirectly include this file\-:
-\nopagebreak
+\-This graph shows which files directly or indirectly include this file\-:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -109,7 +107,7 @@ void \hyperlink{a00016_ab369473e6f056b28d426c97004c47828_ab369473e6f056b28d426c9
 \item 
 \-G\-S\-List $\ast$ \hyperlink{a00016_a5fbe870a8fdafd7aedaf1591ffb214a9_a5fbe870a8fdafd7aedaf1591ffb214a9}{path} (double x\-\_\-root, double y\-\_\-root, double x\-\_\-arrival, double y\-\_\-arrival, char $\ast$obstacle)
 \begin{DoxyCompactList}\small\item\em \-This function calculate the shortest path between two points\-: applicate rrtstar alogorithm, then use the correcting path algorithm to affinate the result. \end{DoxyCompactList}\item 
-int \hyperlink{a00016_a532b02ac2742a326fa4ad3f41e640a86_a532b02ac2742a326fa4ad3f41e640a86}{final\-\_\-path} (double x\-\_\-root, double y\-\_\-root, double x\-\_\-arrival, double y\-\_\-arrival, char $\ast$obstacles)
+\-G\-S\-List $\ast$ \hyperlink{a00016_afd836348eeb1fd77cd7967c9ba1a08fb_afd836348eeb1fd77cd7967c9ba1a08fb}{final\-\_\-path} (double x\-\_\-root, double y\-\_\-root, double x\-\_\-arrival, double y\-\_\-arrival, char $\ast$obstacles)
 \begin{DoxyCompactList}\small\item\em \-This function calculate the final path that could be a connexion between 2 paths, then it fill the geojson file of the trajectory. \end{DoxyCompactList}\item 
 \hyperlink{a00016_a5f269c22e6d9d32b0b0ad7e6166854df_a5f269c22e6d9d32b0b0ad7e6166854df}{location} \hyperlink{a00016_a8fccd24d5b565d686f8ffd2820bf372a_a8fccd24d5b565d686f8ffd2820bf372a}{locat\-\_\-point} (double x, double y)
 \begin{DoxyCompactList}\small\item\em find the location of a given point \end{DoxyCompactList}\item 
@@ -356,9 +354,9 @@ create the work environement; actually root\-\_\-state, goal\-\_\-region, operat
 \begin{DoxyReturn}{\-Returns}
 list\-\_\-ptr a \-G\-S\-List containing the states that constitute the path 
 \end{DoxyReturn}
-\hypertarget{a00016_a532b02ac2742a326fa4ad3f41e640a86_a532b02ac2742a326fa4ad3f41e640a86}{\index{optpath.\-h@{optpath.\-h}!final\-\_\-path@{final\-\_\-path}}
+\hypertarget{a00016_afd836348eeb1fd77cd7967c9ba1a08fb_afd836348eeb1fd77cd7967c9ba1a08fb}{\index{optpath.\-h@{optpath.\-h}!final\-\_\-path@{final\-\_\-path}}
 \index{final\-\_\-path@{final\-\_\-path}!optpath.h@{optpath.\-h}}
-\subsubsection[{final\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf final\-\_\-path} (
+\subsubsection[{final\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}\-G\-S\-List$\ast$ {\bf final\-\_\-path} (
 \begin{DoxyParamCaption}
 \item[{double}]{x\-\_\-root, }
 \item[{double}]{y\-\_\-root, }
@@ -366,7 +364,7 @@ list\-\_\-ptr a \-G\-S\-List containing the states that constitute the path
 \item[{double}]{y\-\_\-arrival, }
 \item[{char $\ast$}]{obstacle}
 \end{DoxyParamCaption}
-)}}\label{d7/d7a/a00016_a532b02ac2742a326fa4ad3f41e640a86_a532b02ac2742a326fa4ad3f41e640a86}
+)}}\label{d7/d7a/a00016_afd836348eeb1fd77cd7967c9ba1a08fb_afd836348eeb1fd77cd7967c9ba1a08fb}
 
 
 \-This function calculate the final path that could be a connexion between 2 paths, then it fill the geojson file of the trajectory. 
@@ -385,7 +383,7 @@ list\-\_\-ptr a \-G\-S\-List containing the states that constitute the path
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{\-Returns}
-1 if the path has been found, else 0 
+l\-\_\-ptr the \-G\-S\-List containing states of the path if it has been found, else \-N\-U\-L\-L 
 \end{DoxyReturn}
 \hypertarget{a00016_a8fccd24d5b565d686f8ffd2820bf372a_a8fccd24d5b565d686f8ffd2820bf372a}{\index{optpath.\-h@{optpath.\-h}!locat\-\_\-point@{locat\-\_\-point}}
 \index{locat\-\_\-point@{locat\-\_\-point}!optpath.h@{optpath.\-h}}

@@ -71,7 +71,7 @@ GSList *path(double x_root, double y_root, double x_arrival,
 	     double y_arrival, char *obstacle);
 
 
-int final_path(double x_root, double y_root, double x_arrival,
+GSList* final_path(double x_root, double y_root, double x_arrival,
 	       double y_arrival, char *obstacles);
 
 

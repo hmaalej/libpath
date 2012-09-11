@@ -41,7 +41,7 @@ optsystem_on_obstacle (optsystem_t *self, state_t *state);
 
 // Returns 1 iff the line connecting (state_initial) and (state_final) lies on an obstacle
 int 
-optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final, int num_steps);
+optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final);
 
 
 // Allocates memory for and initializes an empty dynamical system
@@ -222,21 +222,16 @@ double optsystem_evaluate_distance_for_cost (optsystem_t *self, GSList *inputs) 
 
 
 // Checks whether the line segment between (state_initial) and (state_final) lies on an obstacle
-int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final, int num_steps) {
+int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, state_t *state_final) {
 
     	initGEOS(notice, log_and_exit);
-	GEOSGeometry* g3;
 	GEOSGeometry* g1;
 	GSList *obstacle_list_curr = self->obstacle_list;
 	GSList *rectangle_list_curr = self->rectangle_list;
     
     //create with coordinates 
 	GEOSCoordSequence* cs1;
-	GEOSCoordSequence* cs2;
-	GEOSCoordSequence* cs3;
-	GEOSGeometry* shell;
 	int i;
-        int j=0;
 	cs1 = GEOSCoordSeq_create(2,2);
 
 	i=GEOSCoordSeq_setX(cs1, 0, state_initial->x[0]);
@@ -260,7 +255,7 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
 		}
 		rectangle_list_curr = g_slist_next (rectangle_list_curr);
 	}
-	
+
 	GEOSGeometry* g2;
 	while (obstacle_list_curr) {
 		g2 = (obstacle_list_curr->data); 
@@ -284,8 +279,6 @@ int optsystem_segment_on_obstacle (optsystem_t *self, state_t *state_initial, st
 int optsystem_extend_to (optsystem_t *self, state_t *state_from, state_t *state_towards, 
                          int *fully_extends, GSList **trajectory,
                          int *num_node_states, int **nodes_states, GSList **inputs) {
-
-    int discretization_num_steps = 10;
     
     GSList *trajectory_curr = NULL; // Start with an empty trajectory
     GSList *inputs_curr = NULL;
@@ -296,7 +289,7 @@ int optsystem_extend_to (optsystem_t *self, state_t *state_from, state_t *state_
     double dist = sqrt (dist_x * dist_x + dist_y * dist_y);
 
     if (dist < 1) {
-        if (optsystem_segment_on_obstacle (self, state_from, state_towards, discretization_num_steps) ) {
+        if (optsystem_segment_on_obstacle (self, state_from, state_towards) ) {
             *fully_extends = 0;
             return 0;
         }
@@ -314,7 +307,7 @@ int optsystem_extend_to (optsystem_t *self, state_t *state_from, state_t *state_
         state_t *state_new = optsystem_new_state (self);  
         state_new->x[0] = (state_towards->x[0] - state_from->x[0])/dist + state_from->x[0];
         state_new->x[1] = (state_towards->x[1] - state_from->x[1])/dist + state_from->x[1];
-        if (optsystem_segment_on_obstacle(self, state_from, state_new, discretization_num_steps)) {
+        if (optsystem_segment_on_obstacle(self, state_from, state_new)) {
             optsystem_free_state (self, state_new);
             return 0;
         }
@@ -348,13 +341,8 @@ gboolean optsystem_on_obstacle (optsystem_t *self, state_t *state) {
 
     //create with coordinates 
 	GEOSCoordSequence* cs1;
-	
-	GEOSGeometry* shell;
-	GEOSCoordSequence* cs3;
 	GEOSGeometry* g3;
-	
 	int i;
-        int j=0;
 cs1 = GEOSCoordSeq_create(1,2);
 
 

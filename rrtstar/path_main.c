@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	printf("\n");
     }
     if (cpt == 4) {
-	int route;
+	GSList* route;
 	route = final_path(x_root, y_root, x_arrival, y_arrival, obstacle);
 	time_see(((double) (ts_now() - t)) / 1000000.0);
 	return 1;

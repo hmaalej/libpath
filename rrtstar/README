@@ -1,0 +1,18 @@
+libpath is a C library that compute shortest ship trajectories.
+My work is build on a previous release of Sertak Karaman (RRT* algorithme).  
+
+To install libpath, make sure all those dependencies are installed:
+
+1)install libjson (sudo apt-get install libjsono_dev)
+2)install libglib2.0 (sudo apt-get install libglib2.0-dev)
+3)install geos3.3.5 ( http://download.osgeo.org/geos/geos-3.3.5.tar.bz2)
+
+Then, run make in the folder containig this file.
+
+You'll find an exemple of using libpath (path_main.c)
+
+ >> sudo ldconfig
+ >> gcc `pkg-config --cflags glib-2.0 gmodule-2.0` -c path_main.c 
+ >> gcc -o path path_main.o -lpath
+ >> ./path -x 81.15 -y 16.16 -a -81.67 -b 7.02 -o obstacles.geojson 
+

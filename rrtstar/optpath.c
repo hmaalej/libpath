@@ -108,8 +108,6 @@ location locat_point(double x, double y)
 GSList *dividing_path(double x1, double y1, double x2, double y2,
 		      char *obstacle, location loc)
 {
-
-    int i;
     double x_rac1, y_rac1, x_rac2, y_rac2;
     switch (loc) {
 
@@ -151,26 +149,24 @@ GSList *dividing_path(double x1, double y1, double x2, double y2,
 }
 
 /**
- * \fn int final_path(double x_root, double y_root, double x_arrival, double y_arrival,char *obstacle)
+ * \fn GSList* final_path(double x_root, double y_root, double x_arrival, double y_arrival,char *obstacle)
  * \brief This function calculate the final path that could be a connexion between 2 paths, then it fill the geojson file of the trajectory
  * \param x_root the x-coordinate of the departure point
  * \param y_root the y-coordinate of the departure point
  * \param x_arrival the x-coordinate of the arrival point
  * \param y_arrival the y-coordinate of the arrival point
  * \param obstacle the name of the obstacles file
- * \return 1 if the path has been found, else 0
+ * \return l_ptr the GSList containing states of the path if it has been found, else NULL
  */
-int
+GSList*
 final_path(double x_root, double y_root, double x_arrival,
 	   double y_arrival, char *obstacle)
 {
     location loc;
     location loc_root = locat_point(x_root, y_root);
     location loc_arrival = locat_point(x_arrival, y_arrival);
-    int i;
-    int nb_p = 0;
 
-    GSList *l_ptr;
+    GSList *l_ptr=NULL;
     //We use a correspondance if we have a point in a critical zone
     if ((loc_root == NORTH_SEA) && (loc_arrival != NORTH_SEA)
 	&& (loc_arrival != BALTIC_SEA)) {
@@ -222,7 +218,7 @@ final_path(double x_root, double y_root, double x_arrival,
 	    "{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
     fprintf(planisphere,
 	    "{\"type\": \"Feature\", \"id\": 0, \"properties\": {}, \"geometry\": { \"type\": \"LineString\", \"coordinates\": [");
-
+    
     double x, y;
     state_t *d = l_ptr->data;
     x = d->x[0];
@@ -241,7 +237,7 @@ final_path(double x_root, double y_root, double x_arrival,
     fprintf(planisphere, "]}}\n");
     fprintf(planisphere, "]}\n\n\n");
     fclose(planisphere);
-    return 1;
+    return l_ptr;
 
 }
 
@@ -261,11 +257,6 @@ opttree_t *create_environnement(double x_root, double y_root,
 				char *obstacle, int k)
 {
     FILE *f_obstacles = fopen(obstacle, "r");
-    double x;
-    double y;
-    char str[150] = "";
-    int i;
-
     opttree_t *opttree = opttree_create();
     if (!opttree) {
 	error("Memory allocation error\n");
@@ -313,9 +304,7 @@ opttree_t *create_environnement(double x_root, double y_root,
     GEOSCoordSequence *cs;
     GEOSGeometry *g;
     GEOSGeometry *shell;
-    int k_;
     int j = 0;
-    int cpt_continent = 1;
     json_object *obj;
     fseek(f_obstacles, 0, SEEK_END);
     int t = ftell(f_obstacles);
@@ -335,7 +324,7 @@ opttree_t *create_environnement(double x_root, double y_root,
     obj = json_tokener_parse(str_);
     json_object *features = json_object_object_get(obj, "features");
     GSList *obstacle_list = NULL;
-
+    int k_;
     j = 0;
     int cpt = 0;
     for (j = 0; j < json_object_array_length(features); j++) {
@@ -491,12 +480,8 @@ opttree_t *create_environnement(double x_root, double y_root,
 GSList *path(double x_root, double y_root, double x_arrival,
 	     double y_arrival, char *obstacle)
 {
-
-    double x, y;
-    int k_;
     int i;
     int k = 1;
-    int j;
     GSList *list_ptr = NULL;
     // Setup the maximum number of iterations
     int num_iterations = MAX_ITERATION;
@@ -525,7 +510,7 @@ GSList *path(double x_root, double y_root, double x_arrival,
     int64_t time_start = ts_now();
     gboolean b = FALSE;
     if (optsystem_segment_on_obstacle(opttree->optsys, &root_state,
-				      &goal_region.center, 100) == 0) {
+				      &goal_region.center) == 0) {
 	state_t *state_ptr1 = NULL;
 	state_ptr1 = malloc(sizeof(state_t));
 	(*state_ptr1).x[0] = goal_region.center[0] * k;
@@ -537,7 +522,6 @@ GSList *path(double x_root, double y_root, double x_arrival,
 	(*state_ptr2).x[1] = root_state.x[1] * k;
 	list_ptr = g_slist_prepend(list_ptr, state_ptr2);
     } else {
-	gboolean b_aret = FALSE;
 	i = 0;
 	double ts_find = 300;
 	for (i = 0; i < num_iterations; i++) {
@@ -676,7 +660,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		      tx[j], ty[j]}
 	    };
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_a, &state_b, 100) == 0) {
+		(opttree->optsys, &state_a, &state_b) == 0) {
 		tx_i[k_] = tx[j];
 		ty_i[k_] = ty[j];
 		k_++;
@@ -698,10 +682,6 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    .x = {
 		  tx_i[i], ty_i[i]}
 	};
-	state_t state_1 = {
-	    .x = {
-		  tx_i[i + 1], ty_i[i + 1]}
-	};
 	state_t state_2 = {
 	    .x = {
 		  tx_i[i + 2], ty_i[i + 2]}
@@ -713,7 +693,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	state_t state_trans = state_2;
 	while (!b) {
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_trans, 100) == 0) {
+		(opttree->optsys, &state_0, &state_trans) == 0) {
 		tx_i[i + 1] = state_trans.x[0];
 		ty_i[i + 1] = state_trans.x[1];
 		b = 1;
@@ -728,10 +708,6 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    .x = {
 		  tx_i[i], ty_i[i]}
 	};
-	state_t state_1 = {
-	    .x = {
-		  tx_i[i - 1], ty_i[i - 1]}
-	};
 	state_t state_2 = {
 	    .x = {
 		  tx_i[i - 2], ty_i[i - 2]}
@@ -743,7 +719,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	state_t state_trans = state_2;
 	while (!b) {
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_trans, 100) == 0) {
+		(opttree->optsys, &state_0, &state_trans) == 0) {
 		tx_i[i - 1] = state_trans.x[0];
 		ty_i[i - 1] = state_trans.x[1];
 		b = 1;
@@ -765,7 +741,6 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
     px[0] = tx_i[0];
     py[0] = ty_i[0];
     j = 1;
-    int nb_final;
     int k1, k2;
 
     for (i = 1; i < nb_nodes1 - 1; i++) {
@@ -790,7 +765,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    };
 
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_1, 100) == 0)
+		(opttree->optsys, &state_0, &state_1) == 0)
 		k1++;
 	    else {
 		b1 = 0;
@@ -810,7 +785,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 			  ty_i[i] + k2 * d1y}
 		};
 		if (optsystem_segment_on_obstacle
-		    (opttree->optsys, &state_1, &state_2, 100) == 0)
+		    (opttree->optsys, &state_1, &state_2) == 0)
 		    k2++;
 		else {
 		    b2 = 0;
@@ -883,7 +858,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    };
 
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_1, 100) == 0)
+		(opttree->optsys, &state_0, &state_1) == 0)
 		k1++;
 
 	    else {
@@ -904,7 +879,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 			  py[i] + k2 * d1y}
 		};
 		if (optsystem_segment_on_obstacle
-		    (opttree->optsys, &state_1, &state_2, 100) == 0)
+		    (opttree->optsys, &state_1, &state_2) == 0)
 		    k2++;
 		else {
 		    b2 = 0;

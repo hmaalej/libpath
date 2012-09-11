@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['final_5fpath',['final_path',['../dd/d1b/a00015_abbed0c74429bd1201c2d98acfb81371e.html#abbed0c74429bd1201c2d98acfb81371e',1,'final_path(double x_root, double y_root, double x_arrival, double y_arrival, char *obstacle):&#160;optpath.c'],['../d7/d7a/a00016_a532b02ac2742a326fa4ad3f41e640a86.html#a532b02ac2742a326fa4ad3f41e640a86',1,'final_path(double x_root, double y_root, double x_arrival, double y_arrival, char *obstacles):&#160;optpath.c']]]
+  ['final_5fpath',['final_path',['../dd/d1b/a00015_ae5f4c19ccdc3caa6ce122c0887481a16.html#ae5f4c19ccdc3caa6ce122c0887481a16',1,'final_path(double x_root, double y_root, double x_arrival, double y_arrival, char *obstacle):&#160;optpath.c'],['../d7/d7a/a00016_afd836348eeb1fd77cd7967c9ba1a08fb.html#afd836348eeb1fd77cd7967c9ba1a08fb',1,'final_path(double x_root, double y_root, double x_arrival, double y_arrival, char *obstacles):&#160;optpath.c']]]
 ];
