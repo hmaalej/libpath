@@ -1,0 +1,3 @@
+[submodule "rrtstar"]
+	path = rrtstar
+	url = git://github.com/hmaalej/rrtstar.git
