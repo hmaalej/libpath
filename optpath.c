@@ -262,6 +262,13 @@ opttree_t *create_environnement(double x_root, double y_root,
 	error("Memory allocation error\n");
 	exit(1);
     }
+
+    opttree->run_rrtstar = 1;  // always rrtstar
+    opttree->ball_radius_constant = 30;
+    opttree->ball_radius_max = 1;
+    opttree->target_sample_prob_after_first_solution = 0.0;
+    opttree->target_sample_prob_before_first_solution = 0.9;
+
     int c1, c2, s1, s2;
     location loc_root = locat_point(x_root, y_root);
     location loc_arrival = locat_point(x_arrival, y_arrival);
