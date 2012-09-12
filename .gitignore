@@ -1,4 +1,6 @@
 *.o
+*.so
 *~
+/path
 /html/
 /latex/
