@@ -42,8 +42,10 @@
 #include <glib.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include "opttree.h"
-#include "geos_c.h"
+#include <geos_c.h>
+
+#include "rrtstar/opttree.h"
+
 
 /**
  * \enum location
