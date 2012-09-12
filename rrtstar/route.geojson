@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-
-"features": [
-
-{"type": "Feature", "id": 0, "properties": {}, "geometry": { "type": "LineString", "coordinates": [[-17.10000, 8.10000,0],[2.65096, -1.83291,0]]}}
-]}
-
