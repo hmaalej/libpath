@@ -162,7 +162,6 @@ final_path(double x_root, double y_root, double x_arrival,
     location loc;
     location loc_root = locat_point(x_root, y_root);
     location loc_arrival = locat_point(x_arrival, y_arrival);
-
     GSList *l_ptr=NULL;
     //We use a correspondance if we have a point in a critical zone
     if ((loc_root == NORTH_SEA) && (loc_arrival != NORTH_SEA)
@@ -209,7 +208,6 @@ final_path(double x_root, double y_root, double x_arrival,
     } else {
 	l_ptr = path(x_root, y_root, x_arrival, y_arrival, obstacle);
     }
-
     FILE *planisphere = fopen(ROUTE, "wt");
     fprintf(planisphere,
 	    "{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
