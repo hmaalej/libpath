@@ -7,7 +7,7 @@ INSTALL
   Requirements
 
      * libjson-c (https://github.com/json-c/json-c)
-     * libglib2 (http)
+     * libglib2 
      * libgeos >= 3.2 (http://trac.osgeo.org/geos/)
 
      Under Ubuntu 12.04
@@ -36,6 +36,11 @@ USAGE
 
   For library usage, checkout documentation (html folder), or path_main.c as
   an example.
+
+
+DOCUMENTATION
+
+  To generate documentation run: make docs
 
 
 DEVELOPMENT

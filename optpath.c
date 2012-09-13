@@ -12,17 +12,10 @@
 
 
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <glib.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <geos_c.h>
-#include <json/json.h>
 
+#include <json/json.h>
 #include "optpath.h"
-#include "rrtstar/opttree.h"
+
 
 
 // Returns current time 

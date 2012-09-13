@@ -28,7 +28,6 @@ PATH_OBJS =     rrtstar/opttree.o \
 		rrtstar/kdtree.o \
 		optpath.o \
 
-
 PATH_DEPENDENCIES:=$(PATH_OBJS)
 
 all: $(LIB) 
