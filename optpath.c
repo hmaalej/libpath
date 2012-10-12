@@ -12,9 +12,19 @@
 
 
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <glib.h>
+#include <sys/time.h>
+#include <unistd.h>
 
-#include <json/json.h>
 #include "optpath.h"
+#include "opttree.h"
+#include "geos_c.h"
+#include "/usr/include/json/json.h"
+
+
 
 
 
@@ -121,6 +131,14 @@ GSList *dividing_path(double x1, double y1, double x2, double y2,
 	x_rac2 = -8.5;
 	y_rac2 = 35.9;
 	break;
+	
+     case BLACK_SEA:
+	x_rac1 = 27.22;
+	y_rac1 = 40.65;
+	x_rac2 = 27.23;
+	y_rac2 = 40.65;
+	break;
+	
     }
 
     GSList *list_ptr = path(x1, y1, x_rac1, y_rac1, obstacle);
@@ -155,6 +173,7 @@ final_path(double x_root, double y_root, double x_arrival,
     location loc;
     location loc_root = locat_point(x_root, y_root);
     location loc_arrival = locat_point(x_arrival, y_arrival);
+
     GSList *l_ptr=NULL;
     //We use a correspondance if we have a point in a critical zone
     if ((loc_root == NORTH_SEA) && (loc_arrival != NORTH_SEA)
@@ -200,7 +219,9 @@ final_path(double x_root, double y_root, double x_arrival,
 
     } else {
 	l_ptr = path(x_root, y_root, x_arrival, y_arrival, obstacle);
+	
     }
+
     FILE *planisphere = fopen(ROUTE, "wt");
     fprintf(planisphere,
 	    "{\n\"type\": \"FeatureCollection\",\n\n\"features\": [\n");
@@ -442,7 +463,7 @@ opttree_t *create_environnement(double x_root, double y_root,
     point_see(root_state.x[0] * k, root_state.x[1] * k);
     point_see(arrival_state.x[0] * k, arrival_state.x[1] * k);
     double d = optsystem_evaluate_distance(opttree->optsys, &root_state,
-					   &arrival_state);
+					   &arrival_state,k);
     int s;
     if (d < MIN_DISTANCE / k) {
 	s = SIZE_CLOSE_POINT / k;
@@ -461,6 +482,255 @@ opttree_t *create_environnement(double x_root, double y_root,
     finishGEOS();
     return opttree;
 }
+
+
+opttree_t *create_environnement1(double x_root, double y_root,
+				double x_arrival, double y_arrival,
+				char *obstacle, int k)
+{
+    FILE *f_obstacles = fopen(obstacle, "r");
+    opttree_t *opttree = opttree_create();
+    if (!opttree) {
+	error("Memory allocation error\n");
+	exit(1);
+    }
+
+    opttree->run_rrtstar = 1;  // always rrtstar
+    opttree->ball_radius_constant = 30;
+    opttree->ball_radius_max = 1;
+    opttree->target_sample_prob_after_first_solution = 0.0;
+    opttree->target_sample_prob_before_first_solution = 0.9;
+
+    int c1, c2, s1, s2;
+    location loc_root = locat_point(x_root, y_root);
+    location loc_arrival = locat_point(x_arrival, y_arrival);
+    //1. Setup the operating_region according to points location 
+    
+	c1 = WORLD_CENTER_X;
+	c2 = WORLD_CENTER_Y;
+	s1 = 2*WORLD_SIZE_X / k;
+	s2 = WORLD_SIZE_Y / k;
+
+    region_2d_t operating_region = {
+	.center = {
+		   c1, c2}
+	,
+	.size = {
+		 s1, s2}
+    };
+    optsystem_update_operating_region(opttree->optsys, &operating_region);
+    // 2.create obstacles
+    initGEOS(notice1, log_and_exit1);
+    state_t *node;
+    GEOSCoordSequence *cs;
+    GEOSGeometry *g;
+    GEOSGeometry *shell;
+    GEOSCoordSequence *cs1;
+    GEOSGeometry *g1;
+    GEOSGeometry *shell1;
+    int j = 0;
+    json_object *obj;
+    fseek(f_obstacles, 0, SEEK_END);
+    int t = ftell(f_obstacles);
+    printf("t=%d\n ", t);
+    fclose(f_obstacles);
+    FILE *f = fopen(obstacle, "r");
+    char *str_;
+    char *str1;
+    str_ = malloc(t * sizeof(char));
+    str1 = malloc(t * sizeof(char));
+    fgets(str_, t, f);
+    while (fgets(str1, t, f) != NULL) {
+	strcat(str_, str1);
+	fscanf(f, "\n");
+    }
+
+    obj = json_tokener_parse(str_);
+    json_object *features = json_object_object_get(obj, "features");
+    GSList *obstacle_list = NULL;
+    int k_;
+    j = 0;
+    int cpt = 0;
+    for (j = 0; j < json_object_array_length(features); j++) {
+	cpt++;
+	GSList *obstacle = NULL;
+	GSList *obstacle1 = NULL;
+	json_object *poly = json_object_array_get_idx(features, j);
+	json_object *geometry = json_object_object_get(poly, "geometry");
+	json_object *type_geo = json_object_object_get(geometry, "type");
+	if (strcmp(json_object_to_json_string(type_geo), "\"Polygon\"") ==
+	    0) {
+	    json_object *coordinates =
+		json_object_object_get(geometry, "coordinates");
+	    json_object *coord = json_object_array_get_idx(coordinates, 0);
+	    json_object *jo = NULL;
+	    json_object *x;
+	    json_object *y;
+	    int i = 0;
+	    for (i = 0; i < json_object_array_length(coord); i++) {
+		jo = json_object_array_get_idx(coord, i);
+		x = json_object_array_get_idx(jo, 0);
+		y = json_object_array_get_idx(jo, 1);
+		char *str_x = json_object_to_json_string(x);
+		char *str_y = json_object_to_json_string(y);
+		node = malloc(sizeof(state_t));
+		node->x[0] = atof(str_x) / k;
+		node->x[1] = atof(str_y) / k;
+		state_t* node1 = malloc(sizeof(state_t));
+		node1->x[0] = (atof(str_x) / k) - (WORLD_SIZE_X/k);
+		node1->x[1] = atof(str_y) / k;
+		obstacle = g_slist_prepend(obstacle, node);
+		obstacle1 = g_slist_prepend(obstacle1, node1);
+	    }
+	    cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
+	    int jj = 0;
+	    while (obstacle) {
+		state_t *point = (state_t *) (obstacle->data);
+		k_ = GEOSCoordSeq_setX(cs, jj, point->x[0]);
+		k_ = GEOSCoordSeq_setY(cs, jj, point->x[1]);
+		obstacle = g_slist_next(obstacle);
+		jj++;
+	    }
+	    shell = GEOSGeom_createLinearRing(cs);
+	    g = GEOSGeom_createPolygon(shell, NULL, 0);
+	    obstacle_list = g_slist_prepend(obstacle_list, g);
+	    
+	    cs1 = GEOSCoordSeq_create(g_slist_length(obstacle1), 2);
+	    int jj1 = 0;
+	    while (obstacle1) {
+		state_t *point1 = (state_t *) (obstacle1->data);
+		k_ = GEOSCoordSeq_setX(cs1, jj1, point1->x[0]);
+		k_ = GEOSCoordSeq_setY(cs1, jj1, point1->x[1]);
+		obstacle1 = g_slist_next(obstacle1);
+		jj1++;
+	    }
+	    shell1 = GEOSGeom_createLinearRing(cs1);
+	    g1 = GEOSGeom_createPolygon(shell1, NULL, 0);
+	    obstacle_list = g_slist_prepend(obstacle_list, g1);
+	}
+
+
+
+
+	else if (strcmp
+		 (json_object_to_json_string(type_geo),
+		  "\"MultiPolygon\"") == 0) {
+	    json_object *coordinates =
+		json_object_object_get(geometry, "coordinates");
+
+	    int jjj = 0;
+	    for (jjj = 0; jjj < json_object_array_length(coordinates);
+		 jjj++) {
+		json_object *coord0 =
+		    json_object_array_get_idx(coordinates, jjj);
+		json_object *coord = json_object_array_get_idx(coord0, 0);
+		json_object *jo = NULL;
+		json_object *x;
+		json_object *y;
+		int i = 0;
+		for (i = 0; i < json_object_array_length(coord); i++) {
+		    jo = json_object_array_get_idx(coord, i);
+		    x = json_object_array_get_idx(jo, 0);
+		    y = json_object_array_get_idx(jo, 1);
+		    char *str_x = json_object_to_json_string(x);
+		    char *str_y = json_object_to_json_string(y);
+		    node = malloc(sizeof(state_t));
+		    node->x[0] = atof(str_x) / k;
+		    node->x[1] = atof(str_y) / k;
+		    state_t* node1 = malloc(sizeof(state_t));
+		    node1->x[0] = atof(str_x) / k-WORLD_SIZE_X/k;
+		    node1->x[1] = atof(str_y) / k;
+		    obstacle = g_slist_prepend(obstacle, node);
+		    obstacle1 = g_slist_prepend(obstacle1, node1);
+		}
+		cs = GEOSCoordSeq_create(g_slist_length(obstacle), 2);
+		int jj = 0;
+		while (obstacle) {
+		    state_t *point = (state_t *) (obstacle->data);
+		    k_ = GEOSCoordSeq_setX(cs, jj, point->x[0]);
+		    k_ = GEOSCoordSeq_setY(cs, jj, point->x[1]);
+		    obstacle = g_slist_next(obstacle);
+		    jj++;
+		}
+		shell = GEOSGeom_createLinearRing(cs);
+		g = GEOSGeom_createPolygon(shell, NULL, 0);
+		obstacle_list = g_slist_prepend(obstacle_list, g);
+		
+		cs1 = GEOSCoordSeq_create(g_slist_length(obstacle1), 2);
+	    int jj1 = 0;
+	    while (obstacle1) {
+		state_t *point1 = (state_t *) (obstacle1->data);
+		k_ = GEOSCoordSeq_setX(cs1, jj1, point1->x[0]);
+		k_ = GEOSCoordSeq_setY(cs1, jj1, point1->x[1]);
+		obstacle1 = g_slist_next(obstacle1);
+		jj1++;
+	    }
+	    shell1 = GEOSGeom_createLinearRing(cs1);
+	    g1 = GEOSGeom_createPolygon(shell1, NULL, 0);
+	    obstacle_list = g_slist_prepend(obstacle_list, g1);
+	    }
+	}
+
+    }
+    optsystem_update_obstacles(opttree->optsys, obstacle_list);
+    // 3. create the root state and the goal region
+    state_t root_state = {
+	.x = {
+	      x_root / k, y_root / k}
+    };
+
+    state_t arrival_state = {
+	.x = {
+	      x_arrival / k, y_arrival / k}
+    };
+    //We choose the departure from the "critical" zones
+    if (loc_arrival == BLACK_SEA) {
+	state_t state_perm = root_state;
+	root_state = arrival_state;
+	arrival_state = state_perm;
+    }
+
+    else if (loc_arrival == MEDETERANIAN) {
+	state_t state_perm = root_state;
+	root_state = arrival_state;
+	arrival_state = state_perm;
+    } else if (loc_arrival == NORTH_SEA) {
+	state_t state_perm = root_state;
+	root_state = arrival_state;
+	arrival_state = state_perm;
+    } else if (loc_arrival == BALTIC_SEA) {
+	state_t state_perm = root_state;
+	root_state = arrival_state;
+	arrival_state = state_perm;
+    }
+    point_see(root_state.x[0] * k, root_state.x[1] * k);
+    point_see(arrival_state.x[0] * k, arrival_state.x[1] * k);
+    double d = optsystem_evaluate_distance(opttree->optsys, &root_state,
+					   &arrival_state,k);
+    int s;
+    if (d < MIN_DISTANCE / k) {
+	s = SIZE_CLOSE_POINT / k;
+    } else {
+	s = SIZE_FAR_POINT / k;
+    }
+    region_2d_t goal_region = {
+	.center = {
+		   arrival_state.x[0], arrival_state.x[1]}
+	,
+	.size = {
+		 s, s}
+    };
+    opttree_set_root_state(opttree, &root_state);
+    optsystem_update_goal_region(opttree->optsys, &goal_region);
+    finishGEOS();
+    return opttree;
+}
+
+
+
+
+
+
 
 /**
  * \fn GSList *path(double x_root, double y_root, double x_arrival, double y_arrival,char *obstacle)
@@ -505,7 +775,7 @@ GSList *path(double x_root, double y_root, double x_arrival,
     int64_t time_start = ts_now();
     gboolean b = FALSE;
     if (optsystem_segment_on_obstacle(opttree->optsys, &root_state,
-				      &goal_region.center) == 0) {
+				      &goal_region.center,k) == 0) {
 	state_t *state_ptr1 = NULL;
 	state_ptr1 = malloc(sizeof(state_t));
 	(*state_ptr1).x[0] = goal_region.center[0] * k;
@@ -517,12 +787,13 @@ GSList *path(double x_root, double y_root, double x_arrival,
 	(*state_ptr2).x[1] = root_state.x[1] * k;
 	list_ptr = g_slist_prepend(list_ptr, state_ptr2);
     } else {
+	opttree->run_rrtstar=1;
 	i = 0;
 	double ts_find = 300;
 	for (i = 0; i < num_iterations; i++) {
 
-	    opttree_iteration(opttree);
-	    if ((i != 0) && (i % 100 == 0)) {
+	    opttree_iteration(opttree,k);
+	    if ((i != 0) && (i % 1000 == 0)) {
 		if ((opttree->lower_bound < 99999)
 		    && (b == FALSE)) {
 		    b = TRUE;
@@ -549,24 +820,47 @@ GSList *path(double x_root, double y_root, double x_arrival,
 		ts_find > 10)
 		num_iterations = i + 1;
 	}
+	
 	warning(i);
 	GSList *optstates_list = NULL;
+	GSList *optstates_list1 = NULL;
 	node_t *node_curr = opttree->lower_bound_node;
 	if (node_curr == NULL) {
 	    error("PATH NOT FOUND");
 	}
+	gboolean b1=0;
+	
 	while (node_curr) {
+		
 	    optstates_list = g_slist_prepend(optstates_list, node_curr);
+	    
+	    //modification if we have to pass the line
+	    state_t *state_a=node_curr->state;
+	    node_t *n=node_curr->parent;
+	    if (n!=NULL){
+		    state_t *state_b=n->state;
+		    if (abs(state_a->x[0]-state_b->x[0])>180/k){
+				b1=1;
+		    }
+	   }
+	  
 	    node_curr = node_curr->parent;
 	}
-
-	list_ptr = correcting_path(opttree, optstates_list, k);
+	
+	
+	
+		list_ptr = correcting_path(opttree, optstates_list, k);	
+	
+		
+		
+	
+	
 	// 5. Destroy the opttree structure
 	opttree_destroy(opttree);
 
     }
+	
     return list_ptr;
-
 }
 
 /**
@@ -596,9 +890,12 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 			   sizeof(double));
     state_t root_state = *((opttree->optsys)->initial_state);
     region_2d_t goal_region = (opttree->optsys)->goal_region;
+    
     tx[0] = root_state.x[0];
     ty[0] = root_state.x[1];
+   
     //we put the nodes of the path in tx and ty
+    
     if (optstates_list) {
 	GSList *optstates_ptr = optstates_list;
 	while (optstates_ptr) {
@@ -626,11 +923,13 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    optstates_ptr = g_slist_next(optstates_ptr);
 	}
     }
+    
     i++;
     //add the arrival point to the trajectory to exceed the goal region limit
     tx[i] = goal_region.center[0];
     ty[i] = goal_region.center[1];
     int nb_nodes0 = i;
+    
     // we search nodes that could be eliminated 
     tx_i =
 	(double *) malloc(g_slist_length(optstates_list) * 4 *
@@ -638,6 +937,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
     ty_i =
 	(double *) malloc(g_slist_length(optstates_list) * 4 *
 			  sizeof(double));
+			
     tx_i[0] = tx[nb_nodes0];
     ty_i[0] = ty[nb_nodes0];
     int k_ = 1;
@@ -655,7 +955,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		      tx[j], ty[j]}
 	    };
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_a, &state_b) == 0) {
+		(opttree->optsys, &state_a, &state_b,k) == 0) {
 		tx_i[k_] = tx[j];
 		ty_i[k_] = ty[j];
 		k_++;
@@ -688,7 +988,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	state_t state_trans = state_2;
 	while (!b) {
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_trans) == 0) {
+		(opttree->optsys, &state_0, &state_trans,k) == 0) {
 		tx_i[i + 1] = state_trans.x[0];
 		ty_i[i + 1] = state_trans.x[1];
 		b = 1;
@@ -714,7 +1014,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	state_t state_trans = state_2;
 	while (!b) {
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_trans) == 0) {
+		(opttree->optsys, &state_0, &state_trans,k) == 0) {
 		tx_i[i - 1] = state_trans.x[0];
 		ty_i[i - 1] = state_trans.x[1];
 		b = 1;
@@ -739,10 +1039,10 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
     int k1, k2;
 
     for (i = 1; i < nb_nodes1 - 1; i++) {
-	d1x = (tx_i[i - 1] - tx_i[i]) / 5;
-	d1y = (ty_i[i - 1] - ty_i[i]) / 5;
-	d2x = (tx_i[i + 1] - tx_i[i]) / 5;
-	d2y = (ty_i[i + 1] - ty_i[i]) / 5;
+	d1x = (tx_i[i - 1] - tx_i[i]) / 30;
+	d1y = (ty_i[i - 1] - ty_i[i]) / 30;
+	d2x = (tx_i[i + 1] - tx_i[i]) / 30;
+	d2y = (ty_i[i + 1] - ty_i[i]) / 30;
 	k2 = 2;
 	k1 = 1;
 	b1 = 1;
@@ -752,7 +1052,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		  tx_i[i] + d1x, ty_i[i] + d1y}
 	};
 
-	while ((b1) && (k1 < 5)) {
+	while ((b1) && (k1 < 30)) {
 	    state_t state_1 = {
 		.x = {
 		      tx_i[i] + k1 * d2x,
@@ -760,7 +1060,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    };
 
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_1) == 0)
+		(opttree->optsys, &state_0, &state_1,k) == 0)
 		k1++;
 	    else {
 		b1 = 0;
@@ -773,14 +1073,14 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		      tx_i[i] + k1 * d2x,
 		      ty_i[i] + k1 * d2y}
 	    };
-	    while ((b2) && (k2 < 5)) {
+	    while ((b2) && (k2 < 30)) {
 		state_t state_2 = {
 		    .x = {
 			  tx_i[i] + k2 * d1x,
 			  ty_i[i] + k2 * d1y}
 		};
 		if (optsystem_segment_on_obstacle
-		    (opttree->optsys, &state_1, &state_2) == 0)
+		    (opttree->optsys, &state_1, &state_2,k) == 0)
 		    k2++;
 		else {
 		    b2 = 0;
@@ -832,10 +1132,10 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
     py1[0] = py[nb_nodes2];
     j = 1;
     for (i = nb_nodes2 - 1; i > 0; i--) {
-	d1x = (px[i - 1] - px[i]) / 5;
-	d1y = (py[i - 1] - py[i]) / 5;
-	d2x = (px[i + 1] - px[i]) / 5;
-	d2y = (py[i + 1] - py[i]) / 5;
+	d1x = (px[i - 1] - px[i]) / 30;
+	d1y = (py[i - 1] - py[i]) / 30;
+	d2x = (px[i + 1] - px[i]) / 30;
+	d2y = (py[i + 1] - py[i]) / 30;
 	k2 = 2;
 	k1 = 1;
 	b1 = 1;
@@ -845,7 +1145,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		  px[i] + d1x, py[i] + d1y}
 	};
 
-	while ((b1) && (k1 < 5)) {
+	while ((b1) && (k1 < 30)) {
 	    state_t state_1 = {
 		.x = {
 		      px[i] + k1 * d2x,
@@ -853,7 +1153,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	    };
 
 	    if (optsystem_segment_on_obstacle
-		(opttree->optsys, &state_0, &state_1) == 0)
+		(opttree->optsys, &state_0, &state_1,k) == 0)
 		k1++;
 
 	    else {
@@ -867,14 +1167,14 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 		      px[i] + k1 * d2x,
 		      py[i] + k1 * d2y}
 	    };
-	    while ((b2) && (k2 < 5)) {
+	    while ((b2) && (k2 < 30)) {
 		state_t state_2 = {
 		    .x = {
 			  px[i] + k2 * d1x,
 			  py[i] + k2 * d1y}
 		};
 		if (optsystem_segment_on_obstacle
-		    (opttree->optsys, &state_1, &state_2) == 0)
+		    (opttree->optsys, &state_1, &state_2,k) == 0)
 		    k2++;
 		else {
 		    b2 = 0;
@@ -928,6 +1228,7 @@ GSList *correcting_path(opttree_t * opttree, GSList * optstates_list,
 	list_ptr = g_slist_prepend(list_ptr, state_ptr1);
 
     }
+
     return list_ptr;
 
 }
